@@ -1,40 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Venom X Knight</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-    <video autoplay muted loop id="bg-video">
-        <source src="94a83cad256a2ac2cd7d012afb2a0377_720w.mp4" type="video/mp4">
-    </video>
-
-    <div id="particles-js"></div>
-
-    <div class="notification" id="notification">
-        <button class="close-btn" onclick="closeNotification()">X</button>
-        <div class="intro-text">
-            Venom X Knight
-        </div>
-    </div>
-
+  <video autoplay muted loop class="background-video">
+    <source src="video.mp4" type="video/mp4">
+    Trình duyệt của bạn không hỗ trợ video.
+  </video>
+    
+  <div class="content">
     <div class="menu">
-        <div class="status">
-            <div class="indicator"></div>
-            <span>Menu Config Venom X Knight</span>
+      <div class="status">
+        <div class="indicator"></div>
+        <span>Menu Config Venom X Knight</span>
+      </div>
+
+      <div class="time" id="current-time">Thời gian: </div>
+
+      <div class="checkbox-list">
+        <div class="checkbox-item">
+          <input type="checkbox" id="task1">
+          <label for="task1">Tối Ưu Thiết Bị</label>
         </div>
+      </div>
 
-        <div class="time" id="current-time">Thời gian: </div>
-
-        <div class="checkbox-list">
-            <div class="checkbox-item">
-                <input type="checkbox" id="task1">
-                <label for="task1">Tối Ưu Thiết Bị</label>
-            </div>
-        </div>
-
-        <div class="coder">Venom X Knight </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <div class="loading-text"></div>
-        </div>
+      <div class="coder">Venom X Knight</div>
     </div>
+  </div>
 
-    <audio id="beep-sound" src="https://www.soundjay.com/button/flick-beep.wav"></audio>
-    <script src="script.js"></script>
+  <script>
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('current-time').textContent =
+        'Thời gian: ' + now.toLocaleTimeString('vi-VN');
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
 </body>
+</html>
