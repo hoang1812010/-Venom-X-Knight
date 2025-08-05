@@ -1,17 +1,21 @@
 
 
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            background-image: url('brg.jpg');
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-
+      body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-image: url('brg.jpg');
+    background-size: cover;          
+    background-position: center;      
+    background-repeat: no-repeat;    
+    aspect-ratio: 16 / 9;            
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
         #particles-js {
             position: absolute;
             width: 100%;
