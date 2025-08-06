@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
- <video autoplay muted loop playsinline class="background-video">
-  <source src="https://v1.pinimg.com/videos/iht/expMp4/94/a8/3c/94a83cad256a2ac2cd7d012afb2a0377_720w.mp4" type="video/mp4">
-  Trình duyệt không hỗ trợ video.
-</video>
-    
+
+  <video autoplay muted loop playsinline class="background-video">
+    <source src="https://v1.pinimg.com/videos/iht/expMp4/94/a8/3c/94a83cad256a2ac2cd7d012afb2a0377_720w.mp4" type="video/mp4">
+    Trình duyệt không hỗ trợ video.
+  </video>
+
   <div class="content">
     <div class="menu">
       <div class="status">
@@ -35,9 +35,10 @@
 
   <button onclick="playMusic()">Bật nhạc</button>
 
-<audio id="background-music" loop>
-  <source src="nhacnen.mp3" type="audio/mpeg">
-</audio>
+  <audio id="background-music" preload="auto" loop>
+    <source src="nhacnen.mp3" type="audio/mpeg">
+    Trình duyệt không hỗ trợ phát âm thanh.
+  </audio>
 
   <script>
     function updateTime() {
@@ -47,6 +48,15 @@
     }
     setInterval(updateTime, 1000);
     updateTime();
+
+    function playMusic() {
+      const music = document.getElementById('background-music');
+      music.play().catch(error => {
+        console.log('Không thể phát nhạc:', error);
+        alert('Trình duyệt chặn tự động phát nhạc. Hãy thử lại sau hoặc kiểm tra quyền âm thanh.');
+      });
+    }
   </script>
+
 </body>
 </html>
