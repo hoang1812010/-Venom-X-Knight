@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTH Ultra Touch | Android Optimize App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root{
+            --bg:#040814;
+            --panel:rgba(10,18,36,0.52);
+            --panel-strong:rgba(8,14,30,0.78);
+            --line:rgba(110,226,255,0.26);
+            --line-strong:rgba(122,160,255,0.56);
+            --text:#f4fbff;
+            --muted:#9fb7d3;
+            --cyan:#6ee2ff;
+            --blue:#7aa0ff;
+            --violet:#b18cff;
+            --green:#7bffbe;
+            --danger:#ff758f;
+            --gold:#ffd978;
+            --shadow:0 28px 70px rgba(0,0,0,0.42);
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            min-height:100vh;
+            font-family:'Inter',sans-serif;
+            color:var(--text);
+            background:radial-gradient(circle at top, #0a1633 0%, #050a17 48%, #03060f 100%);
+            overflow-x:hidden;
+        }
+
+        #bg-video{
+            position:fixed;
+            inset:0;
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            z-index:-5;
+            opacity:0.68;
+            filter:brightness(0.66) saturate(1.28) contrast(1.12);
+            transform:scale(1.04);
+        }
+
+        .bg-tint,
+        .bg-vignette,
+        .bg-grid,
+        .bg-glow,
+        .scanlines{
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+        }
+
+        .bg-tint{
+            z-index:-4;
+            background:
+                radial-gradient(circle at 12% 16%, rgba(110,226,255,0.22), transparent 30%),
+                radial-gradient(circle at 86% 10%, rgba(177,140,255,0.22), transparent 26%),
+                radial-gradient(circle at 50% 100%, rgba(122,160,255,0.12), transparent 38%),
+                linear-gradient(180deg, rgba(4,10,24,0.16), rgba(3,7,16,0.54));
+        }
+
+        .bg-glow{
+            z-index:-3;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(110,226,255,0.12), transparent 34%),
+                radial-gradient(circle at 52% 118%, rgba(122,160,255,0.22), transparent 44%),
+                radial-gradient(circle at 20% 78%, rgba(177,140,255,0.08), transparent 28%);
+            mix-blend-mode:screen;
+        }
+
+        .bg-grid{
+            z-index:-2;
+            background-image:
+                linear-gradient(rgba(140,225,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(140,225,255,0.05) 1px, transparent 1px);
+            background-size:42px 42px;
+            mask-image:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 95%);
+        }
+
+        .bg-vignette{
+            z-index:-1;
+            background:radial-gradient(circle at center, transparent 26%, rgba(0,0,0,0.54) 100%);
+        }
+
+        .scanlines{
+            z-index:0;
+            opacity:0.09;
+            background:repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.08) 0px,
+                rgba(255,255,255,0.08) 1px,
+                transparent 2px,
+                transparent 5px
+            );
+            mix-blend-mode:soft-light;
+        }
+
+        .shell{
+            position:relative;
+            z-index:1;
+            width:min(1220px, calc(100% - 32px));
+            margin:0 auto;
+            padding:26px 0 36px;
+        }
+
+        .topbar,
+        .audio-dock,
+        .hero,
+        .card,
+        .footer{
+            backdrop-filter:blur(10px);
+            box-shadow:var(--shadow);
+        }
+
+        .topbar{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
+            padding:12px 16px;
+            margin-bottom:16px;
+            border:1px solid var(--line);
+            background:linear-gradient(180deg, rgba(15,26,48,0.72), rgba(8,16,33,0.46));
+            border-radius:18px;
+        }
+
+        .brand{
+            display:flex;
+            align-items:center;
+            gap:14px;
+        }
+
+        .brand-mark{
+            width:48px;
+            height:48px;
+            border-radius:14px;
+            display:grid;
+            place-items:center;
+            font-size:18px;
+            color:var(--cyan);
+            background:linear-gradient(135deg, rgba(110,226,255,0.24), rgba(122,160,255,0.16));
+            border:1px solid rgba(64,233,255,0.35);
+            box-shadow:0 0 26px rgba(110,226,255,0.18) inset, 0 0 34px rgba(122,160,255,0.14);
+        }
+
+        .brand-text h1,
+        .hero h2,
+        .section-title,
+        .meter-value,
+        .btn-go,
+        .btn,
+        .tag,
+        #notify,
+        .audio-chip,
+        .audio-toggle{
+            font-family:'Orbitron',sans-serif;
+        }
+
+        .brand-text h1{
+            font-size:1rem;
+            letter-spacing:0.2em;
+            text-transform:uppercase;
+            margin-bottom:4px;
+        }
+
+        .brand-text p{
+            color:var(--muted);
+            font-size:0.78rem;
+        }
+
+        .tag{
+            padding:8px 14px;
+            border-radius:999px;
+            font-size:0.72rem;
+            letter-spacing:0.14em;
+            text-transform:uppercase;
+            color:#dcf9ff;
+            border:1px solid rgba(110,226,255,0.32);
+            background:rgba(110,226,255,0.08);
+            box-shadow:0 0 20px rgba(110,226,255,0.10) inset;
+        }
+
+        .audio-dock{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:14px;
+            padding:16px 18px;
+            margin-bottom:18px;
+            border-radius:20px;
+            border:1px solid var(--line);
+            background:linear-gradient(135deg, rgba(9,17,34,0.78), rgba(10,22,42,0.5));
+        }
+
+        .audio-left{
+            display:flex;
+            align-items:center;
+            gap:14px;
+            min-width:0;
+        }
+
+        .audio-icon{
+            width:48px;
+            height:48px;
+            border-radius:16px;
+            display:grid;
+            place-items:center;
+            color:var(--gold);
+            background:linear-gradient(135deg, rgba(255,217,120,0.14), rgba(255,217,120,0.05));
+            border:1px solid rgba(255,216,106,0.25);
+            box-shadow:inset 0 0 18px rgba(255,216,106,0.08);
+            flex:0 0 auto;
+        }
+
+        .audio-copy strong{
+            display:block;
+            margin-bottom:4px;
+            font-size:0.98rem;
+        }
+
+        .audio-copy p{
+            color:#bdd0e2;
+            line-height:1.55;
+            font-size:0.9rem;
+        }
+
+        .audio-right{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex-wrap:wrap;
+            justify-content:flex-end;
+        }
+
+        .audio-chip{
+            padding:8px 12px;
+            border-radius:999px;
+            border:1px solid rgba(255,216,106,0.22);
+            background:rgba(255,216,106,0.08);
+            color:#ffe39b;
+            font-size:0.7rem;
+            letter-spacing:0.12em;
+            text-transform:uppercase;
+        }
+
+        .audio-toggle{
+            border:none;
+            cursor:pointer;
+            padding:12px 16px;
+            border-radius:14px;
+            letter-spacing:0.12em;
+            text-transform:uppercase;
+            font-size:0.74rem;
+            color:#f4fbff;
+            background:linear-gradient(135deg, rgba(110,226,255,0.2), rgba(122,160,255,0.18));
+            border:1px solid rgba(64,233,255,0.28);
+            transition:.25s ease;
+        }
+        .audio-toggle:hover{transform:translateY(-1px); box-shadow:0 8px 22px rgba(64,233,255,0.12);}
+        .audio-toggle.secondary{
+            background:rgba(255,255,255,0.055);
+            border-color:rgba(255,255,255,0.08);
+        }
+
+        .hero{
+            position:relative;
+            overflow:hidden;
+            padding:28px;
+            border-radius:28px;
+            border:1px solid var(--line);
+            background:linear-gradient(140deg, rgba(8,15,30,0.74), rgba(10,19,38,0.5) 42%, rgba(27,12,48,0.34));
+            margin-bottom:20px;
+        }
+
+        .hero::before,
+        .hero::after,
+        .card::before,
+        .card::after{
+            content:'';
+            position:absolute;
+            pointer-events:none;
+        }
+
+        .hero::before{
+            inset:0;
+            background:linear-gradient(120deg, rgba(110,226,255,0.16), transparent 34%, transparent 62%, rgba(177,140,255,0.14));
+        }
+
+        .hero::after{
+            top:-42%;
+            right:-10%;
+            width:300px;
+            height:300px;
+            border-radius:50%;
+            background:radial-gradient(circle, rgba(110,226,255,0.24), transparent 62%);
+            filter:blur(10px);
+        }
+
+        .corner{
+            position:absolute;
+            width:18px;
+            height:18px;
+            border-color:rgba(64,233,255,0.5);
+            border-style:solid;
+        }
+        .corner.tl{top:12px;left:12px;border-width:2px 0 0 2px;border-top-left-radius:8px;}
+        .corner.tr{top:12px;right:12px;border-width:2px 2px 0 0;border-top-right-radius:8px;}
+        .corner.bl{bottom:12px;left:12px;border-width:0 0 2px 2px;border-bottom-left-radius:8px;}
+        .corner.br{bottom:12px;right:12px;border-width:0 2px 2px 0;border-bottom-right-radius:8px;}
+
+        .hero-grid{
+            position:relative;
+            display:grid;
+            grid-template-columns:1.35fr 0.95fr;
+            gap:20px;
+        }
+
+        .kicker{
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            margin-bottom:14px;
+            padding:8px 12px;
+            border-radius:999px;
+            font-size:0.76rem;
+            color:#d7f8ff;
+            background:rgba(12,24,42,0.56);
+            border:1px solid rgba(64,233,255,0.18);
+        }
+
+        .hero h2{
+            font-size:clamp(1.7rem, 4vw, 3rem);
+            line-height:1.05;
+            letter-spacing:0.08em;
+            text-transform:uppercase;
+            margin-bottom:14px;
+            text-shadow:0 0 30px rgba(64,233,255,0.18);
+        }
+
+        .hero h2 span{
+            color:var(--cyan);
+            text-shadow:0 0 18px rgba(64,233,255,0.5);
+        }
+
+        .hero p{
+            width:min(680px,100%);
+            color:#c9d8e8;
+            line-height:1.75;
+            font-size:0.96rem;
+        }
+
+        .hero-pills{
+            margin-top:18px;
+            display:flex;
+            flex-wrap:wrap;
+            gap:10px;
+        }
+
+        .pill{
+            display:inline-flex;
+            align-items:center;
+            gap:9px;
+            padding:10px 12px;
+            border-radius:999px;
+            font-size:0.82rem;
+            color:#e7f7ff;
+            background:rgba(255,255,255,0.055);
+            border:1px solid rgba(255,255,255,0.07);
+        }
+
+        .hero-side{
+            display:grid;
+            gap:14px;
+        }
+
+        .mini-panel{
+            position:relative;
+            padding:18px;
+            border-radius:22px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.06);
+            overflow:hidden;
+        }
+
+        .mini-panel::before{
+            content:'';
+            position:absolute;
+            inset:0 auto auto 0;
+            width:100%;
+            height:2px;
+            background:linear-gradient(90deg, rgba(64,233,255,0.6), transparent);
+        }
+
+        .mini-panel small{
+            display:block;
+            margin-bottom:8px;
+            color:var(--muted);
+            text-transform:uppercase;
+            letter-spacing:0.14em;
+            font-size:0.72rem;
+        }
+
+        .mini-panel strong{
+            display:block;
+            margin-bottom:8px;
+            font-size:1rem;
+        }
+
+        .mini-panel span{
+            color:#c6d6e8;
+            line-height:1.65;
+            font-size:0.92rem;
+        }
+
+        .mini-panel code{
+            display:block;
+            margin-top:10px;
+            padding:10px 12px;
+            border-radius:14px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.08);
+            color:#9be9ff;
+            font-size:0.84rem;
+            overflow-wrap:anywhere;
+        }
+
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(3, minmax(0,1fr));
+            gap:16px;
+            margin-bottom:18px;
+        }
+
+        .stat{
+            padding:18px;
+            border-radius:24px;
+            border:1px solid var(--line);
+            background:linear-gradient(180deg, rgba(9,16,31,0.72), rgba(7,13,24,0.46));
+            box-shadow:var(--shadow);
+            display:flex;
+            align-items:center;
+            gap:16px;
+        }
+
+        .meter{
+            --value:0.25turn;
+            position:relative;
+            width:96px;
+            aspect-ratio:1;
+            border-radius:50%;
+            display:grid;
+            place-items:center;
+            background:
+                radial-gradient(circle at center, rgba(8,13,25,0.95) 55%, transparent 56%),
+                conic-gradient(var(--cyan) 0turn var(--value), rgba(177,140,255,0.16) var(--value) 1turn);
+            box-shadow:inset 0 0 32px rgba(110,226,255,0.12), 0 0 34px rgba(122,160,255,0.10);
+        }
+
+        .meter::after{
+            content:'';
+            position:absolute;
+            inset:10px;
+            border-radius:50%;
+            border:1px solid rgba(255,255,255,0.06);
+        }
+
+        .meter-value{
+            position:relative;
+            z-index:1;
+            font-size:0.95rem;
+            letter-spacing:0.08em;
+        }
+
+        .meter-label{
+            text-transform:uppercase;
+            letter-spacing:0.16em;
+            color:var(--muted);
+            font-size:0.78rem;
+        }
+
+        .main-grid{
+            display:grid;
+            grid-template-columns:repeat(12, minmax(0,1fr));
+            gap:16px;
+        }
+
+        .card{
+            position:relative;
+            overflow:hidden;
+            border-radius:26px;
+            border:1px solid var(--line);
+            background:linear-gradient(180deg, rgba(9,16,31,0.72), rgba(7,13,24,0.48));
+            padding:22px;
+            animation:fadeUp .55s ease both;
+        }
+
+        .card::before{
+            inset:0;
+            background:linear-gradient(135deg, rgba(110,226,255,0.10), transparent 35%, transparent 65%, rgba(177,140,255,0.10));
+        }
+
+        .card::after{
+            inset:auto 18px 0 18px;
+            height:1px;
+            background:linear-gradient(90deg, transparent, rgba(110,226,255,0.42), transparent);
+        }
+
+        .key-card{grid-column:span 4;}
+        .boost-card{grid-column:span 4;}
+        .system-card{grid-column:span 4;}
+        .status-card{grid-column:span 12;}
+
+        .section-title{
+            position:relative;
+            z-index:1;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-bottom:18px;
+            font-size:0.92rem;
+            letter-spacing:0.18em;
+            text-transform:uppercase;
+            color:#ebfbff;
+        }
+
+        .field-label{
+            display:block;
+            margin-bottom:10px;
+            color:var(--muted);
+            font-size:0.9rem;
+        }
+
+        .field{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:12px 14px;
+            border-radius:16px;
+            border:1px solid rgba(255,255,255,0.08);
+            background:rgba(255,255,255,0.045);
+            margin-bottom:14px;
+        }
+
+        .field i{color:var(--cyan);}
+
+        input{
+            width:100%;
+            border:none;
+            outline:none;
+            background:transparent;
+            color:var(--text);
+            font-size:0.98rem;
+        }
+
+        input::placeholder{color:#88a0b8;}
+        select option{background:#081322;color:#eef8ff;}
+
+        .btn,
+        .btn-alt{
+            position:relative;
+            overflow:hidden;
+            border:none;
+            cursor:pointer;
+            width:100%;
+            padding:14px 16px;
+            border-radius:16px;
+            transition:.25s ease;
+        }
+
+        .btn{
+            color:#f3fbff;
+            letter-spacing:0.12em;
+            text-transform:uppercase;
+            background:linear-gradient(135deg, rgba(110,226,255,0.22), rgba(122,160,255,0.22));
+            border:1px solid rgba(64,233,255,0.28);
+        }
+
+        .btn::before{
+            content:'';
+            position:absolute;
+            inset:0;
+            background:linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+            transform:translateX(-120%);
+            animation:led 2.4s linear infinite;
+        }
+
+        .btn:hover,
+        .btn-alt:hover{
+            transform:translateY(-2px);
+            box-shadow:0 12px 28px rgba(110,226,255,0.16);
+        }
+
+        .btn-group{
+            display:grid;
+            gap:12px;
+        }
+
+        .btn-alt{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.08);
+        }
+
+        .btn-alt span{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            font-weight:600;
+            color:#eaf5ff;
+            text-align:left;
+        }
+
+        .btn-alt i:last-child{color:#8fdfff;}
+
+        .btn-alt.is-active{
+            background:linear-gradient(135deg, rgba(64,233,255,0.16), rgba(95,140,255,0.18));
+            border:1px solid rgba(64,233,255,0.34);
+            box-shadow:0 10px 24px rgba(64,233,255,0.14);
+        }
+
+        .btn-alt.is-pending{
+            border:1px solid rgba(255,196,76,0.28);
+            box-shadow:0 10px 22px rgba(255,196,76,0.10);
+        }
+
+        .btn-go-wrap{
+            display:grid;
+            place-items:center;
+            padding:6px 0 10px;
+        }
+
+        .btn-go{
+            width:172px;
+            aspect-ratio:1;
+            border-radius:50%;
+            border:1px solid rgba(64,233,255,0.55);
+            background:
+                radial-gradient(circle at 50% 45%, rgba(255,255,255,0.34), rgba(255,255,255,0) 28%),
+                radial-gradient(circle at center, rgba(110,226,255,0.30), rgba(8,12,28,0.92) 68%);
+            box-shadow:
+                0 0 0 12px rgba(110,226,255,0.05),
+                0 0 0 24px rgba(110,226,255,0.035),
+                0 0 46px rgba(110,226,255,0.22),
+                inset 0 0 40px rgba(110,226,255,0.26);
+            display:grid;
+            place-items:center;
+            text-align:center;
+            text-transform:uppercase;
+            letter-spacing:0.18em;
+            font-size:1rem;
+            cursor:pointer;
+            position:relative;
+            animation:pulseCore 2.6s ease-in-out infinite;
+        }
+
+        .btn-go::before,
+        .btn-go::after{
+            content:'';
+            position:absolute;
+            inset:-10px;
+            border-radius:50%;
+            border:1px solid rgba(64,233,255,0.18);
+        }
+
+        .btn-go::after{
+            inset:-22px;
+            border-color:rgba(166,108,255,0.12);
+        }
+
+        .boost-caption{
+            margin-top:20px;
+            text-align:center;
+            color:#bed0e2;
+            line-height:1.7;
+            font-size:0.9rem;
+        }
+
+        .status-panel{
+            display:grid;
+            grid-template-columns:1.15fr 0.85fr;
+            gap:18px;
+            align-items:stretch;
+        }
+
+        .status-copy{
+            padding:18px;
+            border-radius:20px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.06);
+        }
+
+        .status-copy p{
+            color:#c7d4e3;
+            line-height:1.8;
+            font-size:0.95rem;
+            margin:10px 0 14px;
+        }
+
+        .status-boxes{
+            display:grid;
+            gap:12px;
+        }
+
+        .status-box{
+            padding:16px;
+            border-radius:18px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.06);
+        }
+
+        .status-box small{
+            display:block;
+            margin-bottom:7px;
+            color:var(--muted);
+            text-transform:uppercase;
+            letter-spacing:0.1em;
+        }
+
+        .status-box strong{
+            font-size:1rem;
+        }
+
+        .device-info{
+            display:grid;
+            gap:12px;
+            margin:16px 0 18px;
+        }
+
+        .device-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:12px;
+            padding:14px 16px;
+            border-radius:18px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.06);
+        }
+
+        .device-row .label{
+            color:var(--muted);
+            font-size:0.92rem;
+        }
+
+        .device-row .value{
+            color:#eef8ff;
+            font-weight:700;
+            text-align:right;
+            max-width:60%;
+            overflow-wrap:anywhere;
+        }
+
+        .device-badge{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            min-width:110px;
+            padding:8px 14px;
+            border-radius:999px;
+            border:1px solid rgba(64,233,255,0.24);
+            background:rgba(64,233,255,0.1);
+            color:#dffbff;
+            font-weight:700;
+            letter-spacing:0.04em;
+        }
+
+        .device-badge.rank-high{
+            color:#bfffdc;
+            border-color:rgba(98,255,177,0.35);
+            background:rgba(98,255,177,0.12);
+        }
+
+        .device-badge.rank-mid{
+            color:#ffe7a3;
+            border-color:rgba(255,216,106,0.34);
+            background:rgba(255,216,106,0.12);
+        }
+
+        .device-badge.rank-low{
+            color:#ffc3cb;
+            border-color:rgba(255,101,119,0.34);
+            background:rgba(255,101,119,0.12);
+        }
+
+        .footer{
+            margin-top:22px;
+            padding:24px;
+            border-radius:28px;
+            border:1px solid var(--line);
+            background:linear-gradient(180deg, rgba(10,18,34,0.74), rgba(7,12,24,0.56));
+        }
+
+        .admin-grid{
+            display:grid;
+            grid-template-columns:repeat(2, minmax(0,1fr));
+            gap:16px;
+            margin-top:14px;
+        }
+
+        .admin-card{
+            padding:18px;
+            border-radius:22px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.06);
+        }
+
+        .admin-head{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            padding-bottom:14px;
+            margin-bottom:14px;
+            border-bottom:1px solid rgba(255,255,255,0.08);
+        }
+
+        .admin-badge{
+            display:inline-flex;
+            align-items:center;
+            gap:10px;
+        }
+
+        .admin-avatar{
+            width:46px;
+            height:46px;
+            border-radius:16px;
+            display:grid;
+            place-items:center;
+            color:var(--cyan);
+            background:linear-gradient(135deg, rgba(64,233,255,0.14), rgba(95,140,255,0.08));
+            border:1px solid rgba(64,233,255,0.22);
+        }
+
+        .admin-title strong{
+            display:block;
+            margin-bottom:3px;
+        }
+        .admin-title span{
+            color:var(--muted);
+            font-size:0.86rem;
+        }
+
+        .admin-tag{
+            padding:8px 10px;
+            border-radius:999px;
+            font-size:0.68rem;
+            letter-spacing:0.12em;
+            text-transform:uppercase;
+            color:#bdf7ff;
+            border:1px solid rgba(64,233,255,0.18);
+            background:rgba(110,226,255,0.08);
+        }
+
+        .contact-list{
+            display:grid;
+            gap:12px;
+        }
+
+        .contact-item{
+            display:flex;
+            gap:14px;
+            align-items:flex-start;
+            padding:14px;
+            border-radius:18px;
+            background:rgba(255,255,255,0.045);
+            border:1px solid rgba(255,255,255,0.06);
+            transition:.25s ease;
+        }
+
+        .contact-item:hover{
+            background:rgba(110,226,255,0.08);
+            border-color:rgba(110,226,255,0.30);
+            transform:translateY(-2px);
+        }
+
+        .contact-icon{
+            width:42px;
+            height:42px;
+            border-radius:14px;
+            display:grid;
+            place-items:center;
+            background:rgba(110,226,255,0.12);
+            color:var(--cyan);
+            flex:0 0 auto;
+        }
+
+        .contact-text strong{
+            display:block;
+            margin-bottom:4px;
+        }
+        .contact-text span{
+            color:var(--muted);
+            font-size:0.9rem;
+            overflow-wrap:anywhere;
+        }
+
+        .credit{
+            margin-top:18px;
+            text-align:center;
+            color:#7992ad;
+            font-size:0.82rem;
+        }
+
+        #notify{
+            position:fixed;
+            top:18px;
+            left:50%;
+            transform:translate(-50%,-120%);
+            min-width:min(92vw,420px);
+            padding:14px 18px;
+            border-radius:18px;
+            border:1px solid rgba(64,233,255,0.28);
+            background:rgba(8,15,30,0.84);
+            backdrop-filter:blur(14px);
+            box-shadow:0 18px 44px rgba(0,0,0,0.36), 0 0 28px rgba(110,226,255,0.14);
+            text-align:center;
+            font-size:0.82rem;
+            letter-spacing:0.12em;
+            text-transform:uppercase;
+            opacity:0;
+            transition:transform .34s ease, opacity .34s ease;
+            z-index:20;
+        }
+
+        #notify.active{
+            opacity:1;
+            transform:translate(-50%,0);
+        }
+
+        #status{
+            margin-top:12px;
+            min-height:22px;
+            font-size:0.92rem;
+        }
+
+        .hidden-audio{
+            position:absolute;
+            width:1px;
+            height:1px;
+            opacity:0;
+            pointer-events:none;
+        }
+
+        @keyframes fadeUp{
+            from{opacity:0;transform:translateY(20px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+
+        @keyframes pulseCore{
+            0%,100%{box-shadow:0 0 0 12px rgba(110,226,255,0.05),0 0 0 24px rgba(110,226,255,0.035),0 0 46px rgba(110,226,255,0.22),inset 0 0 40px rgba(110,226,255,0.26);}
+            50%{box-shadow:0 0 0 14px rgba(110,226,255,0.06),0 0 0 30px rgba(110,226,255,0.045),0 0 58px rgba(110,226,255,0.30),inset 0 0 50px rgba(110,226,255,0.30);}
+        }
+
+        @keyframes led{
+            0%{transform:translateX(-120%);}
+            100%{transform:translateX(120%);}
+        }
+
+        @media (max-width: 1024px){
+            .hero-grid,
+            .status-panel,
+            .admin-grid{grid-template-columns:1fr;}
+            .key-card,.boost-card,.system-card,.status-card{grid-column:span 12;}
+            .stats{grid-template-columns:1fr;}
+            .audio-dock{flex-direction:column; align-items:flex-start;}
+            .audio-right{justify-content:flex-start;}
+        }
+
+        @media (max-width: 720px){
+            .shell{width:min(100% - 20px, 1220px); padding-top:18px;}
+            .topbar{flex-direction:column; align-items:flex-start;}
+            .hero{padding:22px 18px;}
+            .main-grid{gap:14px;}
+            .card{padding:18px;}
+            .btn-go{width:150px;}
+            .audio-left{align-items:flex-start;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- Android WebView: thay bgm.mp3 bằng file nhạc của bạn trong cùng thư mục assets -->
+<audio id="bgm" class="hidden-audio" autoplay loop preload="auto">
+    <source src="bgm.mp3" type="audio/mpeg">
+</audio>
+
+<video autoplay muted loop playsinline id="bg-video">
+    <source src="https://v1.pinimg.com/videos/iht/expMp4/6e/a2/53/6ea2536233f6bc6028fcb36a5841f9bd_720w.mp4" type="video/mp4">
+</video>
+<div class="bg-tint"></div>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+<div class="bg-vignette"></div>
+<div class="scanlines"></div>
+
+<div id="notify"></div>
+
+<div class="shell">
+    <div class="topbar">
+        <div class="brand">
+            <div class="brand-mark"><i class="fa-solid fa-bolt"></i></div>
+            <div class="brand-text">
+                <h1>DTH Precision Aim</h1>
+                <p>Tối Ưu Đỉnh Cao - Tăng Nhạy Thiết Bị - Tăng Khả Năng Bám Đầu</p>
+            </div>
+        </div>
+        <div class="tag">System Ready</div>
+    </div>
+
+    <section class="audio-dock">
+        <div class="audio-left">
+            <div class="audio-icon"><i class="fa-solid fa-music"></i></div>
+            <div class="audio-copy">
+                <strong>Audio Play</strong>
+                <p></p>
+            </div>
+        </div>
+        <div class="audio-right">
+            <div class="audio-chip" id="audioStatus">Audio: Auto Init</div>
+            <button class="audio-toggle" id="audioToggle" onclick="toggleAudio()"><i class="fa-solid fa-volume-high"></i> Sound On</button>
+            <button class="audio-toggle secondary" onclick="retryAudio()"><i class="fa-solid fa-rotate-right"></i> Retry Play</button>
+        </div>
+    </section>
+
+    <section class="hero">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <div class="kicker"><i class="fa-solid fa-satellite-dish"></i> Android WebView Ready</div>
+                <h2><span>DTH AimLock</span><br>Đỉnh Cao Công Nghệ Tối Ưu Android</h2>
+                <p>
+                    Bản app này được Admin Dinh Tien Hoang phát triển dựa trên nhu cầu khách hàng, chúng tôi cam kết sản phẩm tạo ra hoàn toàn CHẤT LƯỢNG - AN TOÀN
+                </p>
+
+            </div>
+
+            <div class="hero-side">
+                <div class="mini-panel">
+                    <small>Touch Mode</small>
+                    <strong>Touch Boost</strong>
+                    <span>Tăng tốc độ phản hồi cảm ứng, tăng nhạy khi chơi game</span>
+                </div>
+                <div class="mini-panel">
+                    <small>Prep Mode</small>
+                    <strong>Performance Boost</strong>
+                    <span>Tối ưu hiệu suất thiết bị, tối ưu game mang lại trải nghệm tốt nhất</span>
+                </div>
+                <div class="mini-panel">
+                    <small>Stable Global Mode</small>
+                    <strong>System-Wide Boost</strong>
+                    <span>Tăng phản hồi toàn máy theo hướng ổn định, không ép raw input trong giao diện app</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat">
+            <div class="meter" id="meterCpu"><div class="meter-value" id="cpu">0%</div></div>
+            <span class="meter-label">CPU Load</span>
+        </div>
+        <div class="stat">
+            <div class="meter" id="meterRam"><div class="meter-value" id="ram">0%</div></div>
+            <span class="meter-label">RAM Flow</span>
+        </div>
+        <div class="stat">
+            <div class="meter" id="meterSoft"><div class="meter-value" id="soft">0%</div></div>
+            <span class="meter-label">Soft Sync</span>
+        </div>
+    </section>
+
+    <section class="main-grid">
+        <div class="card key-card">
+            <div class="section-title"><i class="fa-solid fa-key"></i> Key System</div>
+            <label class="field-label">Nhập khóa kích hoạt</label>
+            <div class="field">
+                <i class="fa-solid fa-shield-halved"></i>
+                <input id="key" placeholder="Nhập key để mở hệ thống...">
+            </div>
+            <button class="btn" onclick="verifyKey()">Kích hoạt key từ server</button>
+            <p id="status"></p>
+
+            <div class="device-info" style="margin-top:14px;">
+                <div class="device-row">
+                    <span class="label">Trạng thái key</span>
+                    <span class="value" id="licenseState">Chưa kích hoạt</span>
+                </div>
+                <div class="device-row">
+                    <span class="label">Thời gian còn lại</span>
+                    <span class="value" id="licenseCountdown">--</span>
+                </div>
+                <div class="device-row">
+                    <span class="label">Ràng buộc thiết bị</span>
+                    <span class="value" id="licenseBinding">Chưa có</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-alt" onclick="refreshLicense()">
+                    <span><i class="fa-solid fa-arrows-rotate"></i> Làm mới key</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card boost-card">
+            <div class="section-title"><i class="fa-solid fa-rocket"></i> Extreme Boost</div>
+            <div class="btn-go-wrap">
+                <div class="btn-go" onclick="boost()">Boost</div>
+            </div>
+            <div class="boost-caption">
+                Áp dụng cho thiết bị • phần mở rộng toàn máy cần quyền hệ thống/root
+            </div>
+        </div>
+
+        <div class="card system-card">
+            <div class="section-title"><i class="fa-solid fa-microchip"></i> System Engine</div>
+            <div class="btn-group">
+                <button class="btn-alt" onclick="touchBoost()">
+                    <span><i class="fa-solid fa-hand-pointer"></i> Touch Boost - Tăng độ nhạy</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+                <button class="btn-alt" onclick="performanceBoost()">
+                    <span><i class="fa-solid fa-gauge-high"></i> Performance Boost - Tối ưu hiệu năng</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+                <button class="btn-alt" id="precisionAimBtn" onclick="focusMode()">
+                    <span><i class="fa-solid fa-crosshairs"></i> AimLock - Hỗ tợ kéo lên đầu</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+                <button class="btn-alt" onclick="resetAllFunctions()">
+                    <span><i class="fa-solid fa-power-off"></i> Reset All - Tắt mọi chức năng</span>
+                    <i class="fa-solid fa-angle-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card status-card">
+            <div class="section-title"><i class="fa-solid fa-chart-line"></i> System Status</div>
+            <div class="status-panel">
+                <div class="status-copy">
+                    <strong>Trạng thái nền tảng</strong>
+                    <p id="scanDesc">
+                        Hệ thống đang hoạt động ở chế độ tối ưu cao, tự động cân bằng để giữ độ ổn định tốt nhất. Nhấn nút bên dưới để quét thiết bị và kích hoạt mức tối ưu mạnh, phù hợp nhất với cấu hình máy của bạn.
+                    </p>
+
+                    <div class="device-info">
+                        <div class="device-row">
+                            <span class="label">Tên thiết bị</span>
+                            <span class="value" id="deviceName">Chưa quét</span>
+                        </div>
+                        <div class="device-row">
+                            <span class="label">Phiên bản Android</span>
+                            <span class="value" id="androidVersion">Chưa quét</span>
+                        </div>
+                        <div class="device-row">
+                            <span class="label">RAM khả dụng</span>
+                            <span class="value" id="availableRam">Chưa quét</span>
+                        </div>
+                        <div class="device-row">
+                            <span class="label">Nhiệt độ pin</span>
+                            <span class="value" id="batteryTemp">Chưa quét</span>
+                        </div>
+                        <div class="device-row">
+                            <span class="label">Đánh giá hiệu năng</span>
+                            <span class="device-badge" id="deviceRank">Chưa đánh giá</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="scanDeviceInfo()">Quét thông tin thiết bị</button>
+                </div>
+                <div class="status-boxes">
+                    <div class="status-box">
+                        <small>Scan Status</small>
+                        <strong id="deviceScanState">Sẵn sàng quét</strong>
+                    </div>
+                    <div class="status-box">
+                        <small>Boost Profile</small>
+                        <strong id="deviceBoostProfile">Chưa áp dụng</strong>
+                    </div>
+                    <div class="status-box">
+                        <small>Data Source</small>
+                        <strong id="deviceDataSource">Đang chờ quét</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card status-card">
+            <div class="section-title"><i class="fa-solid fa-gamepad"></i> Game Launcher</div>
+            <div class="status-panel">
+                <div class="status-copy">
+                    <strong>Chạy game từ DTH AimLock</strong>
+                    <p>
+                        Chọn game đã cài trên máy, chạy Game hợp lệ rồi mở game ngay trong một luồng sử dụng gọn hơn.
+                    </p>
+
+                    <div class="field" style="margin-top:16px;">
+                        <i class="fa-solid fa-joystick"></i>
+                        <select id="gameSelect" style="width:100%;background:transparent;border:none;outline:none;color:#eef8ff;font-size:0.98rem;">
+                            <option value="">Đang tải danh sách app...</option>
+                        </select>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="btn" onclick="launchSelectedGame()">Mở game đã chọn</button>
+                        <button class="btn-alt" onclick="loadLaunchableApps()">
+                            <span><i class="fa-solid fa-list"></i> Tải lại danh sách app</span>
+                            <i class="fa-solid fa-angle-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="status-boxes">
+                    <div class="status-box">
+                        <small>Launch Status</small>
+                        <strong id="launchStatus">Chưa chọn game</strong>
+                    </div>
+                    <div class="status-box">
+                        <small>Refresh Rate</small>
+                        <strong id="deviceRefreshRate">Chưa quét</strong>
+                    </div>
+                    <div class="status-box">
+                        <small>Thermal Status</small>
+                        <strong id="deviceThermal">Chưa quét</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <div class="section-title"><i class="fa-solid fa-headset"></i> Contact Admin - Mua Key, Hỗ Trợ Về App</div>
+
+        <div class="admin-grid">
+            <div class="admin-card">
+                <div class="admin-head">
+                    <div class="admin-badge">
+                        <div class="admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                        <div class="admin-title">
+                            <strong>Admin 1: Dinh Tien Hoang</strong>
+                            <span>VenomH4X</span>
+                        </div>
+                    </div>
+                    <div class="admin-tag">Online</div>
+                </div>
+
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div>
+                        <div class="contact-text">
+                            <strong>Facebook</strong>
+                            <span>Dinh Tien Hoang (dth)</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-discord"></i></div>
+                        <div class="contact-text">
+                            <strong>Discord</strong>
+                            <span>dthdz_1</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="contact-text">
+                            <strong>Zalo</strong>
+                            <span>0346347587</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-head">
+                    <div class="admin-badge">
+                        <div class="admin-avatar"><i class="fa-solid fa-user-gear"></i></div>
+                        <div class="admin-title">
+                            <strong>Admin 2: Le Van Bao Long</strong>
+                            <span>Văn Long Plus⚡️</span>
+                        </div>
+                    </div>
+                    <div class="admin-tag">Online</div>
+                </div>
+
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-facebook-f"></i></div>
+                        <div class="contact-text">
+                            <strong>Facebook</strong>
+                            <span>Lê Văn Bảo Long</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-brands fa-discord"></i></div>
+                        <div class="contact-text">
+                            <strong>Discord</strong>
+                            <span>longdzai0408.</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="contact-text">
+                            <strong>Zalo</strong>
+                            <span>0375864735</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="credit">© DTH Precision • Pro Apk Tool </p>
+    </footer>
+</div>
+
+<script>
+    const API_BASE = "https://server-dth-boost-production.up.railway.app";
+    let unlock = false;
+    let licenseSession = null;
+    let licenseCountdownTimer = null;
+
+    const cpu = document.getElementById("cpu");
+    const ram = document.getElementById("ram");
+    const soft = document.getElementById("soft");
+    const meterCpu = document.getElementById("meterCpu");
+    const meterRam = document.getElementById("meterRam");
+    const meterSoft = document.getElementById("meterSoft");
+
+    const bgm = document.getElementById("bgm");
+    const audioStatus = document.getElementById("audioStatus");
+    const audioToggleBtn = document.getElementById("audioToggle");
+
+    const deviceNameEl = document.getElementById("deviceName");
+    const androidVersionEl = document.getElementById("androidVersion");
+    const availableRamEl = document.getElementById("availableRam");
+    const batteryTempEl = document.getElementById("batteryTemp");
+    const deviceRankEl = document.getElementById("deviceRank");
+    const deviceScanStateEl = document.getElementById("deviceScanState");
+    const deviceBoostProfileEl = document.getElementById("deviceBoostProfile");
+    const deviceDataSourceEl = document.getElementById("deviceDataSource");
+    const deviceRefreshRateEl = document.getElementById("deviceRefreshRate");
+    const deviceThermalEl = document.getElementById("deviceThermal");
+    const scanDescEl = document.getElementById("scanDesc");
+
+    const licenseStateEl = document.getElementById("licenseState");
+    const licenseCountdownEl = document.getElementById("licenseCountdown");
+    const licenseBindingEl = document.getElementById("licenseBinding");
+    const gameSelectEl = document.getElementById("gameSelect");
+    const launchStatusEl = document.getElementById("launchStatus");
+    const ultraResponsiveBtn = document.getElementById("precisionAimBtn");
+
+    let audioManuallyPaused = false;
+    let audioReadyNotified = false;
+
+    if (bgm) {
+        bgm.volume = 0.7;
+    }
+
+    function notify(text){
+        const n = document.getElementById("notify");
+        n.innerText = text;
+        n.classList.add("active");
+        clearTimeout(n.hideTimer);
+        n.hideTimer = setTimeout(() => n.classList.remove("active"), 1800);
+    }
+
+    function updateAudioUI(stateText){
+        if(audioStatus) audioStatus.textContent = stateText;
+        if(audioToggleBtn){
+            const playing = bgm && !bgm.paused && !bgm.muted;
+            audioToggleBtn.innerHTML = playing
+                ? '<i class="fa-solid fa-volume-high"></i> Sound On'
+                : '<i class="fa-solid fa-volume-xmark"></i> Sound Off';
+        }
+    }
+
+    function safePlayAudio(source = 'system'){
+        if(!bgm || audioManuallyPaused) {
+            updateAudioUI(audioManuallyPaused ? 'Audio: Manual Off' : 'Audio: Missing');
+            return;
+        }
+
+        const playPromise = bgm.play();
+        if(playPromise !== undefined){
+            playPromise.then(() => {
+                updateAudioUI('Audio: Playing');
+                if(!audioReadyNotified && source !== 'silent'){
+                    audioReadyNotified = true;
+                    notify('Background audio connected');
+                }
+            }).catch(() => {
+                updateAudioUI('Audio: Waiting');
+            });
+        }
+    }
+
+    function retryAudio(){
+        audioManuallyPaused = false;
+        if(bgm) bgm.muted = false;
+        safePlayAudio('retry');
+        notify('Retrying background audio');
+    }
+
+    function toggleAudio(){
+        if(!bgm) return;
+        if(!bgm.paused && !bgm.muted){
+            audioManuallyPaused = true;
+            bgm.pause();
+            updateAudioUI('Audio: Manual Off');
+            notify('Background audio paused');
+        }else{
+            audioManuallyPaused = false;
+            bgm.muted = false;
+            safePlayAudio('toggle');
+        }
+    }
+
+    function setStatus(text, ok = false){
+        const s = document.getElementById("status");
+        s.innerText = text;
+        s.style.color = ok ? "#62ffb1" : "#ff7385";
+    }
+
+    function callBridge(methodName, ...args){
+        try{
+            if(window.Android && typeof window.Android[methodName] === "function"){
+                return window.Android[methodName](...args);
+            }
+        }catch(err){
+            console.log("Bridge error", methodName, err);
+        }
+        return "";
+    }
+
+    function getSnapshot(){
+        try{
+            const raw = callBridge("getDeviceSnapshot");
+            if(raw) return JSON.parse(raw);
+        }catch(err){
+            console.log("Snapshot parse error", err);
+        }
+
+        const ua = navigator.userAgent || "";
+        const match = ua.match(/Android\s([\d.]+)/i);
+        const installId = localStorage.getItem("preview_install_id") || crypto.randomUUID();
+        localStorage.setItem("preview_install_id", installId);
+
+        return {
+            deviceName: /Android/i.test(ua) ? "Thiết bị Android" : "Bản xem trước trên trình duyệt",
+            androidVersion: match ? match[1] : "Không khả dụng",
+            installId,
+            bindingId: "preview-binding",
+            thermalStatus: "Không khả dụng",
+            batteryTempC: "--",
+            totalRamMb: "--",
+            availRamMb: "--",
+            dataSource: /Android/i.test(ua) ? "User Agent" : "Desktop Browser",
+            refreshRateHz: 60
+        };
+    }
+
+    function getBoostProfile(rankLabel){
+        if(rankLabel === "Mạnh") return "High Performance";
+        if(rankLabel === "Trung bình") return "Balanced Mode";
+        if(rankLabel === "Yếu") return "Lite Stability";
+        return "Chưa áp dụng";
+    }
+
+    function evaluateDeviceRank(deviceName, androidVersion, availRamMb){
+        const version = parseInt(androidVersion, 10) || 0;
+        const name = (deviceName || "").toLowerCase();
+        const availRam = parseInt(availRamMb, 10) || 0;
+
+        const highKeywords = ["s24","s23","s22 ultra","rog","redmagic","legion","pixel 8","pixel 9","snapdragon 8","dimensity 9200","dimensity 9300"];
+        const midKeywords = ["s21","s20","a55","a54","a35","note 12","note 13","v27","v29","reno","realme","poco","x6","f5"];
+
+        if(version >= 14 || availRam >= 5000 || highKeywords.some(keyword => name.includes(keyword))){
+            return { label: "Mạnh", className: "rank-high" };
+        }
+        if(version >= 11 || availRam >= 3000 || midKeywords.some(keyword => name.includes(keyword))){
+            return { label: "Trung bình", className: "rank-mid" };
+        }
+        return { label: "Yếu", className: "rank-low" };
+    }
+
+    function scanDeviceInfo(){
+        notify("Đang quét thông tin thiết bị...");
+        const snapshot = getSnapshot();
+        const isAndroid = snapshot.dataSource === "Android Bridge" || /Android/i.test(navigator.userAgent || "");
+        const rank = isAndroid
+            ? evaluateDeviceRank(snapshot.deviceName, snapshot.androidVersion, snapshot.availRamMb)
+            : { label: "Bản xem trước", className: "rank-mid" };
+
+        if(deviceNameEl) deviceNameEl.textContent = snapshot.deviceName || "Không xác định";
+        if(androidVersionEl) androidVersionEl.textContent = snapshot.androidVersion || "Không xác định";
+        if(availableRamEl) availableRamEl.textContent = snapshot.availRamMb && snapshot.totalRamMb
+            ? `${snapshot.availRamMb} / ${snapshot.totalRamMb} MB`
+            : "Không xác định";
+        if(batteryTempEl) batteryTempEl.textContent = snapshot.batteryTempC ? `${snapshot.batteryTempC}°C` : "Không xác định";
+
+        if(deviceRankEl){
+            deviceRankEl.textContent = rank.label;
+            deviceRankEl.className = "device-badge " + rank.className;
+        }
+        if(deviceScanStateEl) deviceScanStateEl.textContent = snapshot.dataSource === "Android Bridge" ? "Quét hoàn tất" : "Bản xem trước";
+        if(deviceBoostProfileEl) deviceBoostProfileEl.textContent = getBoostProfile(rank.label);
+        if(deviceDataSourceEl) deviceDataSourceEl.textContent = snapshot.dataSource || "Không rõ";
+        if(deviceRefreshRateEl) deviceRefreshRateEl.textContent = snapshot.refreshRateHz ? `${snapshot.refreshRateHz}Hz` : "Không xác định";
+        if(deviceThermalEl) deviceThermalEl.textContent = snapshot.thermalStatus || "Không xác định";
+
+        if(scanDescEl){
+            scanDescEl.textContent = `Thiết bị của bạn đang được đánh giá ở mức ${rank.label.toLowerCase()}. Hệ thống sẽ ưu tiên cấu hình hợp lệ để giữ độ mượt, độ ổn định và phản hồi tốt hơn khi chơi game.`;
+        }
+        setTimeout(() => notify("Quét thiết bị hoàn tất"), 350);
+    }
+
+    function formatRemaining(seconds){
+        if(seconds <= 0) return "Đã hết hạn";
+        const d = Math.floor(seconds / 86400);
+        const h = Math.floor((seconds % 86400) / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        if(d > 0) return `${d} ngày ${h} giờ ${m} phút`;
+        if(h > 0) return `${h} giờ ${m} phút ${s} giây`;
+        if(m > 0) return `${m} phút ${s} giây`;
+        return `${s} giây`;
+    }
+
+    function startLicenseCountdown(expiresAt){
+        if(licenseCountdownTimer) clearInterval(licenseCountdownTimer);
+        const tick = () => {
+            const diff = Math.max(0, Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000));
+            if(licenseCountdownEl) licenseCountdownEl.textContent = formatRemaining(diff);
+            if(diff <= 0){
+                clearInterval(licenseCountdownTimer);
+                unlock = false;
+                if(licenseStateEl) licenseStateEl.textContent = "Đã hết hạn";
+                notify("Key đã hết hạn");
+            }
+        };
+        tick();
+        licenseCountdownTimer = setInterval(tick, 1000);
+    }
+
+    function persistLicense(data){
+        localStorage.setItem("dth_license_session", JSON.stringify(data));
+    }
+
+    function clearLicense(){
+        unlock = false;
+        licenseSession = null;
+        localStorage.removeItem("dth_license_session");
+        if(licenseCountdownTimer) clearInterval(licenseCountdownTimer);
+        if(keyCountdownTimer) clearInterval(keyCountdownTimer);
+        if(licenseStateEl) licenseStateEl.textContent = "Chưa kích hoạt";
+        if(licenseCountdownEl) licenseCountdownEl.textContent = "--";
+        if(licenseBindingEl) licenseBindingEl.textContent = "Chưa có";
+    }
+
+    function applyLicenseSession(data){
+        licenseSession = data;
+        unlock = true;
+        if(licenseStateEl) licenseStateEl.textContent = data.license?.statusLabel || "Đang hoạt động";
+        if(licenseBindingEl) licenseBindingEl.textContent = data.license?.bindingLabel || "Thiết bị hiện tại";
+        if(data.expiresAt) startLicenseCountdown(data.expiresAt);
+        setStatus(data.expiresAt ? "KEY ĐÚNG • HỆ THỐNG ĐÃ MỞ" : "KEY ĐÚNG • HỆ THỐNG ĐANG HOẠT ĐỘNG", true);
+        persistLicense(data);
+    }
+
+    async function verifyKey(){
+        const keyInput = document.getElementById("key");
+        const enteredKey = keyInput?.value.trim() || "";
+
+        if(!enteredKey){
+            setStatus("Vui lòng nhập key");
+            if(licenseStateEl) licenseStateEl.textContent = "Chưa kích hoạt";
+            notify("Chưa nhập key");
+            return;
+        }
+
+        const snapshot = getSnapshot();
+        setStatus("Đang xác thực key...");
+        if(licenseStateEl) licenseStateEl.textContent = "Đang xác thực";
+
+        try{
+            const res = await fetch(`${API_BASE}/api/key/verify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            key: enteredKey,
+            installId: snapshot.installId || "preview-install",
+            bindingId: snapshot.bindingId || "preview-binding",
+            deviceName: snapshot.deviceName || "Unknown device",
+            androidVersion: snapshot.androidVersion || "Unknown"
+})
+            });
+
+            const data = await res.json().catch(() => ({}));
+
+            if(!res.ok || !data.ok){
+                clearLicense();
+                setStatus(data.error || data.message || "Key không hợp lệ hoặc đã hết hạn");
+                if(licenseStateEl) licenseStateEl.textContent = "Không hợp lệ";
+                notify("Access denied");
+                return;
+            }
+
+            const sessionData = {
+                sessionToken: data.sessionToken || null,
+                expiresAt: data.expiresAt || null,
+                license: {
+                    statusLabel: data.license?.statusLabel || "Đã kích hoạt",
+                    bindingLabel: data.license?.bindingLabel || (snapshot.bindingId || snapshot.installId || "Thiết bị hiện tại")
+                }
+            };
+
+            applyLicenseSession(sessionData);
+
+            if(licenseStateEl) licenseStateEl.textContent = "Đã kích hoạt";
+            if(licenseBindingEl) licenseBindingEl.textContent = data.license?.bindingLabel || (snapshot.bindingId || snapshot.installId || "Thiết bị hiện tại");
+
+            if(data.expiresAt){
+                startLicenseCountdown(data.expiresAt);
+            }else if(licenseCountdownEl){
+                licenseCountdownEl.textContent = data.remainingText || "--";
+            }
+
+            setStatus(`KEY ĐÚNG • ${data.remainingText || "Đang hoạt động"}`, true);
+            notify("Unlocked");
+        }catch(err){
+            clearLicense();
+            setStatus("Không kết nối được máy chủ key");
+            if(licenseStateEl) licenseStateEl.textContent = "Mất kết nối";
+            notify("Server offline");
+            console.error(err);
+        }
+    }
+    async function refreshLicense(){
+        const keyInput = document.getElementById("key");
+        const enteredKey = keyInput?.value.trim() || "";
+        if(!enteredKey){
+            notify("Hãy nhập key để làm mới");
+            return;
+        }
+        notify("Đang làm mới key");
+        await verifyKey();
+    }
+
+    function hydrateLicense(){
+        const raw = localStorage.getItem("dth_license_session");
+        if(!raw) return;
+        try{
+            const stored = JSON.parse(raw);
+            if(stored?.sessionToken || stored?.expiresAt || stored?.license){
+                applyLicenseSession(stored);
+            }
+        }catch(err){
+            console.log(err);
+            clearLicense();
+        }
+    }
+
+    function requireUnlock(){
+        if(!unlock){
+            notify("Cần key hợp lệ để sử dụng");
+            return false;
+        }
+        return true;
+    }
+
+    function parseBridgeJson(methodName, ...args){
+        try{
+            const raw = callBridge(methodName, ...args);
+            return raw ? JSON.parse(raw) : null;
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
+
+    function boost(){
+        if(!requireUnlock()) return;
+        const result = parseBridgeJson("runGamePrep", "full");
+        if(result){
+            notify("Game Prep hoàn tất");
+            if(deviceBoostProfileEl) deviceBoostProfileEl.textContent = "Game Prep Applied";
+            if(deviceScanStateEl) deviceScanStateEl.textContent = "Ready to launch";
+        }else{
+            notify("Đã bật chế độ tăng cường");
+        }
+        scanDeviceInfo();
+    }
+
+    function touchBoost(){
+        if(!requireUnlock()) return;
+        const result = parseBridgeJson("runGamePrep", "touch");
+        notify(result ? "Touch Boost applied" : "Touch Boost đã bật");
+    }
+
+    function performanceBoost(){
+        if(!requireUnlock()) return;
+        const result = parseBridgeJson("runGamePrep", "performance");
+        notify(result ? "Performance Boost applied" : "Performance Boost đã bật");
+    }
+
+    function resetAllFunctions(){
+        if(!requireUnlock()) return;
+        const result = parseBridgeJson("resetAllFunctions");
+        syncUltraResponsiveState();
+        if(deviceBoostProfileEl) deviceBoostProfileEl.textContent = 'Đã reset toàn bộ';
+        if(deviceScanStateEl) deviceScanStateEl.textContent = 'Tất cả boost đang tắt';
+        if(result?.message){
+            notify('Đã reset toàn bộ');
+            setStatus(result.message, true);
+        }else{
+            notify('Đã reset toàn bộ');
+        }
+        scanDeviceInfo();
+    }
+
+    function renderUltraResponsiveState(status = {}){
+        if(!ultraResponsiveBtn) return;
+        const span = ultraResponsiveBtn.querySelector("span");
+        const arrow = ultraResponsiveBtn.querySelector("i:last-child");
+        ultraResponsiveBtn.classList.remove("is-active", "is-pending");
+
+        const enabled = status.enabled !== false;
+        const label = enabled
+            ? "AimLock đang bật"
+            : "AimLock đang tắt";
+
+        if(enabled){
+            ultraResponsiveBtn.classList.add("is-active");
+        }
+
+        if(span){
+            span.innerHTML = `<i class="fa-solid fa-crosshairs"></i> ${label}`;
+        }
+        if(arrow){
+            arrow.className = enabled ? "fa-solid fa-toggle-on" : "fa-solid fa-toggle-off";
+        }
+    }
+
+    function getUltraResponsiveStatus(){
+        return parseBridgeJson("getUltraResponsiveStatus") || {};
+    }
+
+    function syncUltraResponsiveState(){
+        const status = getUltraResponsiveStatus();
+        renderUltraResponsiveState(status);
+        return status;
+    }
+
+    function focusMode(){
+        if(!requireUnlock()) return;
+
+        const status = syncUltraResponsiveState();
+        const nextEnabled = !(status.enabled === true);
+        const updated = parseBridgeJson("setUltraResponsiveEnabled", nextEnabled) || {
+            ...status,
+            enabled: nextEnabled
+        };
+        renderUltraResponsiveState(updated);
+        notify(nextEnabled ? "Raw input WebView thử nghiệm đã bật" : "Raw input WebView đã tắt");
+    }
+
+    function setMeter(el, value){
+        const turn = Math.max(0.08, Math.min(1, value / 100));
+        el.style.setProperty('--value', `${turn}turn`);
+    }
+
+    function randomizeStats(){
+        const snapshot = getSnapshot();
+        const availRam = parseInt(snapshot.availRamMb, 10);
+        const totalRam = parseInt(snapshot.totalRamMb, 10);
+        const ramPercent = (!isNaN(availRam) && !isNaN(totalRam) && totalRam > 0)
+            ? Math.max(5, Math.min(99, 100 - Math.round((availRam / totalRam) * 100)))
+            : Math.floor(Math.random() * 24 + 58);
+        const cpuValue = Math.floor(Math.random() * 22 + 18);
+        const softValue = snapshot.thermalStatus && snapshot.thermalStatus.includes("Ổn định")
+            ? 14
+            : Math.floor(Math.random() * 18 + 8);
+
+        cpu.innerText = cpuValue + "%";
+        ram.innerText = ramPercent + "%";
+        soft.innerText = softValue + "%";
+
+        setMeter(meterCpu, cpuValue);
+        setMeter(meterRam, ramPercent);
+        setMeter(meterSoft, softValue);
+    }
+
+    function loadLaunchableApps(){
+        if(!gameSelectEl) return;
+        const raw = callBridge("getLaunchableApps");
+        if(!raw){
+            gameSelectEl.innerHTML = '<option value="">Chỉ khả dụng trong app Android</option>';
+            return;
+        }
+        try{
+            const apps = JSON.parse(raw);
+            gameSelectEl.innerHTML = '<option value="">Chọn game hoặc app để mở...</option>';
+            apps.forEach(app => {
+                const option = document.createElement("option");
+                option.value = app.packageName;
+                option.textContent = `${app.label} • ${app.packageName}`;
+                gameSelectEl.appendChild(option);
+            });
+            if(launchStatusEl) launchStatusEl.textContent = `${apps.length} app khả dụng`;
+        }catch(err){
+            console.log(err);
+            gameSelectEl.innerHTML = '<option value="">Không đọc được danh sách app</option>';
+        }
+    }
+
+    function launchSelectedGame(){
+        if(!requireUnlock()) return;
+        const pkg = gameSelectEl?.value;
+        if(!pkg){
+            notify("Chưa chọn game");
+            return;
+        }
+        boost();
+        const ok = callBridge("launchApp", pkg);
+        if(ok){
+            if(launchStatusEl) launchStatusEl.textContent = "Đã mở game";
+            notify("Launching game");
+        }else{
+            notify("Không mở được app đã chọn");
+        }
+    }
+
+    function bootAudio(){
+        safePlayAudio('boot');
+        setTimeout(() => safePlayAudio('boot-delay'), 600);
+        setTimeout(() => safePlayAudio('boot-delay-2'), 1500);
+    }
+    let keyCountdownTimer = null;
+
+    function startKeyCountdown(expiresAt) {
+        const statusEl = document.getElementById("status");
+        const expiresMs = new Date(expiresAt).getTime();
+
+        if (keyCountdownTimer) {
+            clearInterval(keyCountdownTimer);
+        }
+
+        function renderCountdown() {
+            const now = Date.now();
+            const diff = expiresMs - now;
+
+            if (diff <= 0) {
+                clearInterval(keyCountdownTimer);
+                unlock = false;
+                statusEl.innerText = "Key đã hết hạn";
+                statusEl.style.color = "#ff7385";
+                notify("Key expired");
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            statusEl.innerText = `KEY ĐÚNG • Còn ${days}d ${hours}h ${mins}m ${secs}s`;
+            statusEl.style.color = "#62ffb1";
+        }
+
+        renderCountdown();
+        keyCountdownTimer = setInterval(renderCountdown, 1000);
+    }
+
+    window.addEventListener("load", () => {
+        randomizeStats();
+        setInterval(randomizeStats, 2500);
+        bootAudio();
+        scanDeviceInfo();
+        loadLaunchableApps();
+        hydrateLicense();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        updateAudioUI('Audio: Init');
+        if(deviceScanStateEl) deviceScanStateEl.textContent = 'Sẵn sàng quét';
+        if(deviceBoostProfileEl) deviceBoostProfileEl.textContent = 'Chưa áp dụng';
+        if(deviceDataSourceEl) deviceDataSourceEl.textContent = 'Đang chờ quét';
+    });
+
+    document.addEventListener("click", () => safePlayAudio('click'), { passive: true });
+    document.addEventListener("touchstart", () => safePlayAudio('touch'), { passive: true });
+
+    document.addEventListener("visibilitychange", () => {
+        if(document.visibilityState === "visible"){
+            setTimeout(() => safePlayAudio('visible'), 250);
+        }
+    });
+
+    window.addEventListener("pageshow", () => {
+        setTimeout(() => safePlayAudio('pageshow'), 250);
+    });
+
+    window.addEventListener("native-resume", () => {
+        scanDeviceInfo();
+        syncUltraResponsiveState();
+    });
+
+    if (bgm) {
+        bgm.addEventListener("playing", () => updateAudioUI('Audio: Playing'));
+        bgm.addEventListener("pause", () => {
+            updateAudioUI(audioManuallyPaused ? 'Audio: Manual Off' : 'Audio: Paused');
+        });
+        bgm.addEventListener("error", () => updateAudioUI('Audio: File Error'));
+    }
+
+    syncUltraResponsiveState();
+</script>
+
+</body>
+</html>
