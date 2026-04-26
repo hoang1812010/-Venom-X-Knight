@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DTH Ultra Touch | Android Optimize App</title>
+    <title>DTH AimLock V3 | Android Optimize App</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        :root{
-            --bg:#040814;
-            --panel:rgba(10,18,36,0.52);
-            --panel-strong:rgba(8,14,30,0.78);
-            --line:rgba(110,226,255,0.26);
-            --line-strong:rgba(122,160,255,0.56);
-            --text:#f4fbff;
-            --muted:#9fb7d3;
-            --cyan:#6ee2ff;
-            --blue:#7aa0ff;
-            --violet:#b18cff;
-            --green:#7bffbe;
-            --danger:#ff758f;
-            --gold:#ffd978;
-            --shadow:0 28px 70px rgba(0,0,0,0.42);
+        :root {
+            --bg: #120414; /* Màu nền tối */
+            --panel: rgba(20, 14, 23, 0.6); /* Panel tối */
+            --panel-strong: rgba(24, 14, 32, 0.8); /* Panel mạnh */
+            --line: rgba(123, 255, 190, 0.4); /* Đường viền neon green */
+            --line-strong: rgba(123, 255, 190, 0.75); /* Đường viền mạnh */
+            --text: #f4fbff; /* Màu chữ sáng */
+            --muted: #f1b9b9; /* Màu nhạt của chữ */
+            --cyan: #7bffbe; /* Màu neon green */
+            --blue: #62ffb1; /* Màu xanh neon sáng */
+            --violet: #b5b5ff; /* Màu violet sáng */
+            --green: #62ffb1; /* Màu neon green */
+            --gold: #ffd166; /* Màu vàng sáng */
+            --shadow: 0 28px 70px rgba(24, 0, 0, 0.36); /* Đổ bóng */
         }
 
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -987,9 +986,334 @@
             .btn-go{width:150px;}
             .audio-left{align-items:flex-start;}
         }
-    </style>
+    
+/* ===== Enhanced motion & theme layer ===== */
+body.theme-green{
+    --bg:#03140b;
+    --panel:rgba(5,35,20,0.62);
+    --panel-strong:rgba(4,42,22,0.86);
+    --line:rgba(57,255,136,0.38);
+    --line-strong:rgba(57,255,136,0.78);
+    --text:#f3fff8;
+    --muted:#a9f5c7;
+    --cyan:#39ff88;
+    --blue:#00ff9d;
+    --violet:#7dffb2;
+    --green:#39ff88;
+    --danger:#ff5f7a;
+    --gold:#d8ff7a;
+    --shadow:0 28px 70px rgba(0,45,18,0.42);
+    background:
+        radial-gradient(circle at top, #073b1f 0%, #03170d 45%, #010804 100%);
+}
+body.theme-white{
+    --bg:#f4f7fb;
+    --panel:rgba(255,255,255,0.82);
+    --panel-strong:rgba(255,255,255,0.94);
+    --line:rgba(120,140,170,0.24);
+    --line-strong:rgba(70,100,150,0.36);
+    --text:#152033;
+    --muted:#5f718c;
+    --cyan:#3d6df2;
+    --blue:#5e8cff;
+    --violet:#8d74ff;
+    --green:#17b67a;
+    --danger:#e2516b;
+    --gold:#d89c1d;
+    --shadow:0 22px 54px rgba(64,88,130,0.12);
+    background:
+        radial-gradient(circle at top, #ffffff 0%, #eef4fb 50%, #e6edf7 100%);
+}
+
+body.theme-red #bg-video{filter:brightness(0.5) saturate(1.6) hue-rotate(-15deg) contrast(1.12);}
+body.theme-white #bg-video{opacity:0.22; filter:brightness(1.15) saturate(0.75) contrast(0.92);}
+
+body.theme-green .bg-tint{
+    background:
+        radial-gradient(circle at 12% 16%, rgba(57,255,136,0.26), transparent 30%),
+        radial-gradient(circle at 86% 10%, rgba(0,255,157,0.20), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(125,255,178,0.16), transparent 38%),
+        linear-gradient(180deg, rgba(3,32,15,0.18), rgba(1,13,7,0.56));
+}
+body.theme-white .bg-tint{
+    background:
+        radial-gradient(circle at 12% 16%, rgba(61,109,242,0.10), transparent 30%),
+        radial-gradient(circle at 86% 10%, rgba(141,116,255,0.10), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(94,140,255,0.10), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.25), rgba(236,242,251,0.42));
+}
+body.theme-white .bg-grid{
+    background-image:
+        linear-gradient(rgba(70,100,150,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(70,100,150,0.06) 1px, transparent 1px);
+}
+body.theme-white .bg-vignette{
+    background:radial-gradient(circle at center, transparent 24%, rgba(180,196,220,0.14) 100%);
+}
+body.theme-white .scanlines{opacity:0.03;}
+
+body.theme-white .topbar,
+body.theme-white .audio-dock,
+body.theme-white .hero,
+body.theme-white .card,
+body.theme-white .footer{
+    background:linear-gradient(180deg, rgba(255,255,255,0.82), rgba(244,248,253,0.72));
+    border-color:rgba(120,140,170,0.24);
+    box-shadow:var(--shadow);
+}
+body.theme-white .stat,
+body.theme-white .mini-panel,
+body.theme-white .status-copy,
+body.theme-white .status-box,
+body.theme-white .device-row,
+body.theme-white .admin-card,
+body.theme-white .contact-item,
+body.theme-white .field,
+body.theme-white .btn-alt{
+    background:rgba(255,255,255,0.72);
+    border-color:rgba(120,140,170,0.18);
+    box-shadow:0 12px 28px rgba(68,92,130,0.07);
+}
+body.theme-white .pill,
+body.theme-white .kicker,
+body.theme-white .tag,
+body.theme-white .audio-chip{
+    background:rgba(61,109,242,0.08);
+    color:#24427a;
+    border-color:rgba(61,109,242,0.16);
+}
+body.theme-white .audio-copy p,
+body.theme-white .hero p,
+body.theme-white .mini-panel span,
+body.theme-white .status-copy p,
+body.theme-white .contact-text span,
+body.theme-white .brand-text p,
+body.theme-white .credit,
+body.theme-white .meter-label,
+body.theme-white .field-label,
+body.theme-white .device-row .label,
+body.theme-white .status-box small,
+body.theme-white .admin-title span{
+    color:var(--muted);
+}
+body.theme-white input,
+body.theme-white select,
+body.theme-white .device-row .value,
+body.theme-white .status-box strong,
+body.theme-white .audio-copy strong,
+body.theme-white .brand-text h1,
+body.theme-white .hero h2,
+body.theme-white .section-title,
+body.theme-white .contact-text strong,
+body.theme-white .admin-title strong,
+body.theme-white .mini-panel strong{
+    color:var(--text);
+}
+body.theme-white .hero h2 span{color:#215cff;text-shadow:0 0 18px rgba(61,109,242,0.22);}
+body.theme-white .brand-mark,
+body.theme-white .admin-avatar,
+body.theme-white .contact-icon{
+    background:linear-gradient(135deg, rgba(61,109,242,0.12), rgba(94,140,255,0.08));
+    border-color:rgba(61,109,242,0.16);
+    color:#2b5de8;
+}
+body.theme-white .btn{
+    color:#fff;
+    background:linear-gradient(135deg, #4170f6, #6d8fff);
+    border-color:rgba(61,109,242,0.22);
+}
+body.theme-white .audio-toggle{
+    color:#fff;
+    background:linear-gradient(135deg, #4170f6, #7c66ff);
+    border-color:rgba(61,109,242,0.22);
+}
+body.theme-white .audio-toggle.secondary,
+body.theme-white .btn-alt{
+    color:var(--text);
+}
+body.theme-white .btn-go{
+    color:#2450c9;
+    background:
+        radial-gradient(circle at 50% 40%, rgba(255,255,255,0.95), rgba(255,255,255,0.28) 34%, rgba(255,255,255,0) 35%),
+        radial-gradient(circle at center, rgba(117,154,255,0.28), rgba(255,255,255,0.95) 65%);
+    border-color:rgba(61,109,242,0.34);
+    box-shadow:
+        0 0 0 12px rgba(61,109,242,0.06),
+        0 0 0 24px rgba(61,109,242,0.04),
+        0 0 42px rgba(61,109,242,0.18),
+        inset 0 0 36px rgba(61,109,242,0.10);
+}
+body.theme-white #notify{
+    background:rgba(255,255,255,0.9);
+    color:#26406d;
+    border-color:rgba(61,109,242,0.18);
+    box-shadow:0 18px 44px rgba(68,92,130,0.16);
+}
+body.theme-white .meter{
+    background:
+        radial-gradient(circle at center, rgba(255,255,255,0.96) 55%, transparent 56%),
+        conic-gradient(var(--cyan) 0turn var(--value), rgba(70,100,150,0.10) var(--value) 1turn);
+    box-shadow:inset 0 0 30px rgba(61,109,242,0.10), 0 0 22px rgba(61,109,242,0.08);
+}
+body.theme-white .meter::after{border-color:rgba(61,109,242,0.10);}
+body.theme-white .device-badge{
+    color:#24427a;
+    border-color:rgba(61,109,242,0.16);
+    background:rgba(61,109,242,0.08);
+}
+body.theme-white .device-badge.rank-high{color:#12784f;background:rgba(23,182,122,0.10);}
+body.theme-white .device-badge.rank-mid{color:#9a6c00;background:rgba(216,156,29,0.12);}
+body.theme-white .device-badge.rank-low{color:#b14058;background:rgba(226,81,107,0.10);}
+body.theme-white .card::after,
+body.theme-white .mini-panel::before{
+    background:linear-gradient(90deg, transparent, rgba(61,109,242,0.36), transparent);
+}
+
+.fx-orb{
+    position:fixed;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    pointer-events:none;
+    filter:blur(22px);
+    opacity:.22;
+    z-index:-1;
+    animation:floatOrb 14s ease-in-out infinite;
+}
+.fx-orb.orb-a{top:8%; left:-60px; background:radial-gradient(circle, rgba(255,255,255,0.55), transparent 62%);}
+.fx-orb.orb-b{right:-80px; top:26%; background:radial-gradient(circle, rgba(255,255,255,0.38), transparent 62%); animation-duration:18s;}
+.fx-orb.orb-c{left:30%; bottom:-120px; background:radial-gradient(circle, rgba(255,255,255,0.42), transparent 62%); animation-duration:20s;}
+body.theme-green .fx-orb.orb-a{background:radial-gradient(circle, rgba(57,255,136,0.62), transparent 62%);}
+body.theme-green .fx-orb.orb-b{background:radial-gradient(circle, rgba(0,255,157,0.44), transparent 62%);}
+body.theme-green .fx-orb.orb-c{background:radial-gradient(circle, rgba(125,255,178,0.40), transparent 62%);}
+body.theme-white .fx-orb.orb-a{background:radial-gradient(circle, rgba(61,109,242,0.22), transparent 62%);}
+body.theme-white .fx-orb.orb-b{background:radial-gradient(circle, rgba(141,116,255,0.18), transparent 62%);}
+body.theme-white .fx-orb.orb-c{background:radial-gradient(circle, rgba(94,140,255,0.16), transparent 62%);}
+
+.topbar,
+.audio-dock,
+.hero,
+.stat,
+.card,
+.footer{
+    animation:borderBreath 6s ease-in-out infinite;
+}
+.card,
+.stat,
+.mini-panel,
+.admin-card,
+.contact-item,
+.status-box,
+.device-row,
+.field,
+.btn,
+.btn-alt,
+.audio-toggle{
+    transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease;
+}
+.card:hover,
+.stat:hover,
+.mini-panel:hover,
+.admin-card:hover,
+.contact-item:hover,
+.status-box:hover,
+.device-row:hover{
+    transform:translateY(-4px);
+    box-shadow:0 20px 44px rgba(0,0,0,0.20), 0 0 30px rgba(110,226,255,0.08);
+}
+body.theme-white .card:hover,
+body.theme-white .stat:hover,
+body.theme-white .mini-panel:hover,
+body.theme-white .admin-card:hover,
+body.theme-white .contact-item:hover,
+body.theme-white .status-box:hover,
+body.theme-white .device-row:hover{
+    box-shadow:0 20px 46px rgba(68,92,130,0.14);
+}
+
+.hero::before{animation:heroSweep 9s linear infinite;}
+.card::before{animation:cardGlow 7s ease-in-out infinite alternate;}
+.brand-mark,
+.audio-icon,
+.admin-avatar,
+.contact-icon{animation:iconFloat 5s ease-in-out infinite;}
+.hero-side .mini-panel:nth-child(2){animation-delay:.2s;}
+.hero-side .mini-panel:nth-child(3){animation-delay:.4s;}
+.hero-side .mini-panel{animation:floatCard 5.4s ease-in-out infinite;}
+.stat:nth-child(2){animation-delay:.15s;}
+.stat:nth-child(3){animation-delay:.3s;}
+.stat{animation:floatCard 5.6s ease-in-out infinite;}
+.btn:hover::before{animation-duration:1.2s;}
+.btn-go{animation:pulseCore 2.6s ease-in-out infinite, rotateGlow 12s linear infinite;}
+.tag,
+.audio-chip{animation:chipBlink 3s ease-in-out infinite;}
+.section-title i,
+.brand-mark i,
+.audio-icon i{animation:iconPulse 2.8s ease-in-out infinite;}
+.meter{animation:meterBreath 4s ease-in-out infinite;}
+#notify.active{animation:toastPop .34s ease, toastGlow 2s ease-in-out infinite;}
+.field:focus-within{
+    border-color:rgba(110,226,255,0.38);
+    box-shadow:0 0 0 4px rgba(110,226,255,0.08);
+}
+body.theme-white .field:focus-within{
+    border-color:rgba(61,109,242,0.28);
+    box-shadow:0 0 0 4px rgba(61,109,242,0.08);
+}
+
+@keyframes floatOrb{
+    0%,100%{transform:translate3d(0,0,0) scale(1);}
+    50%{transform:translate3d(22px,-28px,0) scale(1.08);}
+}
+@keyframes heroSweep{
+    0%{transform:translateX(-18%) skewX(-8deg);}
+    50%{transform:translateX(8%) skewX(-8deg);}
+    100%{transform:translateX(-18%) skewX(-8deg);}
+}
+@keyframes cardGlow{
+    0%{opacity:.55;}
+    100%{opacity:.9;}
+}
+@keyframes iconFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-4px);}
+}
+@keyframes floatCard{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-5px);}
+}
+@keyframes rotateGlow{
+    0%{filter:hue-rotate(0deg);}
+    100%{filter:hue-rotate(360deg);}
+}
+@keyframes chipBlink{
+    0%,100%{box-shadow:0 0 0 rgba(0,0,0,0);}
+    50%{box-shadow:0 0 18px rgba(110,226,255,0.14);}
+}
+@keyframes iconPulse{
+    0%,100%{opacity:1; transform:scale(1);}
+    50%{opacity:.82; transform:scale(1.08);}
+}
+@keyframes meterBreath{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.02);}
+}
+@keyframes borderBreath{
+    0%,100%{border-color:var(--line);}
+    50%{border-color:rgba(255,255,255,0.14);}
+}
+@keyframes toastPop{
+    from{transform:translate(-50%,-24px) scale(.95); opacity:0;}
+    to{transform:translate(-50%,0) scale(1); opacity:1;}
+}
+@keyframes toastGlow{
+    0%,100%{box-shadow:0 18px 44px rgba(0,0,0,0.36), 0 0 18px rgba(110,226,255,0.12);}
+    50%{box-shadow:0 18px 44px rgba(0,0,0,0.40), 0 0 32px rgba(110,226,255,0.20);}
+}
+
+</style>
 </head>
-<body>
+<body class="theme-red">
 
 <!-- Android WebView: thay bgm.mp3 bằng file nhạc của bạn trong cùng thư mục assets -->
 <audio id="bgm" class="hidden-audio" autoplay loop preload="auto">
@@ -1004,6 +1328,9 @@
 <div class="bg-grid"></div>
 <div class="bg-vignette"></div>
 <div class="scanlines"></div>
+<div class="fx-orb orb-a"></div>
+<div class="fx-orb orb-b"></div>
+<div class="fx-orb orb-c"></div>
 
 <div id="notify"></div>
 
@@ -1012,7 +1339,7 @@
         <div class="brand">
             <div class="brand-mark"><i class="fa-solid fa-bolt"></i></div>
             <div class="brand-text">
-                <h1>DTH Precision Aim</h1>
+                <h1>DTH Precision Aim V3</h1>
                 <p>Tối Ưu Đỉnh Cao - Tăng Nhạy Thiết Bị - Tăng Khả Năng Bám Đầu</p>
             </div>
         </div>
@@ -1042,7 +1369,7 @@
 
         <div class="hero-grid">
             <div class="hero-copy">
-                <div class="kicker"><i class="fa-solid fa-satellite-dish"></i> Android WebView Ready</div>
+                <div class="kicker"><i class="fa-solid fa-satellite-dish"></i> Founder Dinh Tien Hoang</div>
                 <h2><span>DTH AimLock</span><br>Đỉnh Cao Công Nghệ Tối Ưu Android</h2>
                 <p>
                     Bản app này được Admin Dinh Tien Hoang phát triển dựa trên nhu cầu khách hàng, chúng tôi cam kết sản phẩm tạo ra hoàn toàn CHẤT LƯỢNG - AN TOÀN
@@ -1064,7 +1391,7 @@
                 <div class="mini-panel">
                     <small>Stable Global Mode</small>
                     <strong>System-Wide Boost</strong>
-                    <span>Tăng phản hồi toàn máy theo hướng ổn định, không ép raw input trong giao diện app</span>
+                    <span>AimAssist - Hỗ trợ kéo tâm nhẹ, mang lại trải nghiệm mới</span>
                 </div>
             </div>
         </div>
@@ -1141,7 +1468,7 @@
                     <i class="fa-solid fa-angle-right"></i>
                 </button>
                 <button class="btn-alt" id="precisionAimBtn" onclick="focusMode()">
-                    <span><i class="fa-solid fa-crosshairs"></i> AimLock - Hỗ tợ kéo lên đầu</span>
+                    <span><i class="fa-solid fa-crosshairs"></i> AimAssist - TouchSensitivityEnhancer</span>
                     <i class="fa-solid fa-angle-right"></i>
                 </button>
                 <button class="btn-alt" onclick="resetAllFunctions()">
@@ -1433,7 +1760,7 @@
     function setStatus(text, ok = false){
         const s = document.getElementById("status");
         s.innerText = text;
-        s.style.color = ok ? "#62ffb1" : "#ff7385";
+        s.style.color = ok ? "#39ff88" : "#d8ff7a";
     }
 
     function callBridge(methodName, ...args){
@@ -1739,10 +2066,10 @@
         const arrow = ultraResponsiveBtn.querySelector("i:last-child");
         ultraResponsiveBtn.classList.remove("is-active", "is-pending");
 
-        const enabled = status.enabled !== false;
+        const enabled = status.enabled === true;
         const label = enabled
-            ? "AimLock đang bật"
-            : "AimLock đang tắt";
+            ? "AimAssist đang bật"
+            : "AimAssist tắt";
 
         if(enabled){
             ultraResponsiveBtn.classList.add("is-active");
@@ -1776,7 +2103,7 @@
             enabled: nextEnabled
         };
         renderUltraResponsiveState(updated);
-        notify(nextEnabled ? "Raw input WebView thử nghiệm đã bật" : "Raw input WebView đã tắt");
+        notify(updated.message || (nextEnabled ? "AimAssist hệ thống đã bật" : "AimAssist hệ thống đã tắt"));
     }
 
     function setMeter(el, value){
