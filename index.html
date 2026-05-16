@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>DTH AimLock V4</title>
+  <style>
+    :root{
+      --bg:#08030a;--bg2:#120716;--panel:#170b1e;--panel2:#211028;--line:#45204d;
+      --pink:#ff4fbe;--pink2:#ff85d9;--hot:#ff2fa6;--violet:#9e6dff;--text:#fff3fb;--muted:#b994b1;
+      --good:#6affca;--warn:#ffd166;--bad:#ff6b93;--shadow:0 22px 60px rgba(0,0,0,.42);--radius:24px
+    }
+    *{box-sizing:border-box} html{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    body{margin:0;min-height:100vh;overflow-x:hidden;background:
+      radial-gradient(circle at 14% -12%,rgba(255,79,190,.28),transparent 34%),
+      radial-gradient(circle at 90% 4%,rgba(158,109,255,.20),transparent 30%),
+      radial-gradient(circle at 45% 102%,rgba(255,47,166,.12),transparent 42%),
+      linear-gradient(180deg,#09030b 0%,#100713 48%,#070309 100%)}
+    body:before{content:"";position:fixed;inset:-30%;pointer-events:none;background:conic-gradient(from 160deg,transparent,rgba(255,79,190,.10),transparent,rgba(158,109,255,.08),transparent);filter:blur(50px);animation:aurora 9s ease-in-out infinite alternate;opacity:.9}
+    @keyframes aurora{from{transform:translate3d(-2%,0,0) rotate(0deg)}to{transform:translate3d(2%,-1%,0) rotate(8deg)}}
+    @keyframes glowPulse{0%,100%{box-shadow:0 0 22px rgba(255,79,190,.24),0 18px 42px rgba(0,0,0,.34)}50%{box-shadow:0 0 40px rgba(255,79,190,.42),0 22px 54px rgba(0,0,0,.42)}}
+    @keyframes shine{from{transform:translateX(-130%) skewX(-20deg)}to{transform:translateX(170%) skewX(-20deg)}}
+    @keyframes softRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    button,select,input{font:inherit} button{cursor:pointer;-webkit-tap-highlight-color:transparent} b{font-weight:900}
+    .wrap{position:relative;width:min(1180px,100%);margin:0 auto;padding:18px 14px 36px;animation:softRise .42s ease both}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 18px}
+    .brand{display:flex;align-items:center;gap:12px}.logo{width:50px;height:50px;border-radius:17px;display:grid;place-items:center;color:#26001a;font-weight:1000;background:linear-gradient(135deg,#ff4fbe,#ffd1ef);animation:glowPulse 2.8s ease-in-out infinite}.brand h1{font-size:1.08rem;letter-spacing:.18em;margin:0;text-transform:uppercase}.sub{color:var(--muted);font-size:.82rem;margin-top:4px}.pill{border:1px solid rgba(255,79,190,.55);color:#ffd6f2;background:rgba(255,79,190,.10);border-radius:999px;padding:9px 12px;font-size:.72rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;box-shadow:0 0 24px rgba(255,79,190,.16)}
+    .hero,.panel{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(145deg,rgba(33,16,40,.92),rgba(14,6,18,.94));box-shadow:var(--shadow);backdrop-filter:blur(14px)}
+    .hero:after,.panel:after{content:"";position:absolute;top:0;left:0;width:44%;height:100%;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-150%) skewX(-20deg);animation:shine 7s ease-in-out infinite}.hero{border-radius:30px;padding:18px;margin-bottom:14px}.hero-grid{display:grid;grid-template-columns:1fr .92fr;gap:14px}.hero h2{font-size:1.38rem;margin:0 0 8px;letter-spacing:.02em}.hero p{margin:0;color:var(--muted);line-height:1.55;font-size:.92rem}.statusline{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.chip{padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.09);color:#f4cbe7;font-size:.78rem}.chip.good{color:var(--good);border-color:rgba(106,255,202,.28)}.chip.warn{color:var(--warn);border-color:rgba(255,209,102,.28)}.chip.bad{color:var(--bad);border-color:rgba(255,107,147,.30)}
+    .boostbox{display:flex;flex-direction:column;gap:10px}.selector,.field input{width:100%;background:#100516;border:1px solid var(--line);color:var(--text);border-radius:17px;padding:13px 12px;outline:none}.selector:focus,.field input:focus{border-color:rgba(255,79,190,.75);box-shadow:0 0 0 3px rgba(255,79,190,.12)}
+    .btn-main{position:relative;overflow:hidden;width:100%;min-height:76px;border:0;border-radius:25px;background:linear-gradient(135deg,#ff2fa6,#ff85d9 48%,#b783ff);color:#260018;font-weight:1000;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 18px 45px rgba(255,79,190,.30);font-size:1.08rem}.btn-main:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.34),transparent);transform:translateX(-120%) skewX(-18deg);animation:shine 2.7s ease-in-out infinite}.btn-main:active{transform:translateY(1px)}.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--text);border-radius:16px;padding:12px;font-weight:850}.btn:hover{border-color:rgba(255,79,190,.55);box-shadow:0 0 22px rgba(255,79,190,.12)}.btn.danger{border-color:rgba(255,107,147,.32);color:#ffdce8}.btn.blue{border-color:rgba(158,109,255,.38);color:#eadfff}.btn.green{border-color:rgba(106,255,202,.32);color:#d6fff3}.btn.pink{border-color:rgba(255,79,190,.45);color:#ffd1ef}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.panel{grid-column:span 6;border-radius:var(--radius);padding:15px}.panel.wide{grid-column:span 12}.panel.small{grid-column:span 4}.title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.title h3{margin:0;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase}.hint{font-size:.76rem;color:var(--muted)}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:12px;min-height:78px}.label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.value{font-weight:900;margin-top:7px;font-size:1rem;word-break:break-word}.value.good{color:var(--good)}.value.warn{color:var(--warn)}.value.bad{color:var(--bad)}
+    .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.seg button{border:1px solid var(--line);background:rgba(255,255,255,.04);color:#e5bedc;border-radius:14px;padding:11px 8px;font-weight:850}.seg button.active{background:rgba(255,79,190,.15);border-color:rgba(255,79,190,.70);color:#ffd1ef;box-shadow:0 0 20px rgba(255,79,190,.14)}
+    .form{display:grid;gap:10px}.field{display:grid;gap:8px}.range{display:grid;grid-template-columns:92px 1fr 58px;align-items:center;gap:10px;color:var(--muted);font-size:.86rem}.range input{width:100%;accent-color:#ff4fbe}.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px}.switch{width:52px;height:30px;border-radius:999px;border:1px solid var(--line);background:#100516;position:relative}.switch:before{content:"";position:absolute;width:22px;height:22px;border-radius:50%;background:#9e7a98;left:4px;top:3px;transition:.18s}.switch.on{background:rgba(255,79,190,.17);border-color:rgba(255,79,190,.68)}.switch.on:before{left:24px;background:var(--pink);box-shadow:0 0 16px rgba(255,79,190,.75)}
+    .console{height:190px;overflow:auto;background:#07020a;border:1px solid rgba(255,79,190,.22);border-radius:18px;padding:10px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.78rem;color:#ffd1ef;line-height:1.45}.logline{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)}.statusText{min-height:20px;margin:6px 0 0;color:var(--muted);font-weight:800}.statusText.ok{color:var(--good)}.statusText.bad{color:var(--bad)}
+    @media(max-width:860px){.hero-grid{grid-template-columns:1fr}.panel,.panel.small{grid-column:span 12}.cards{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.pill{display:none}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><div class="logo">D4</div><div><h1>DTH AimLock V4</h1><div class="sub">Phiên Bản App DTH Mạnh Nhất • Tối Ưu Sâu • Tăng Nhạy Mạnh</div></div></div>
+    <div class="pill" id="profilePill">System Power Max</div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <h2>DTH AimLock V4</h2>
+        <p>Phiên bản tối ưu nhất của app, app có tác dụng hỗ trợ kéo cực tốt và chúng tôi cam kết rằng nó an toàn. Lưu ý: App này là app hỗ trợ kéo tâm, chỉ chỉnh các thông số của máy và không liên quan đến Cheat & Hack game.</p>
+        <div class="statusline" id="statusLine"><span class="chip">Đang khởi tạo...</span></div>
+      </div>
+      <div class="boostbox">
+        <select class="selector" id="gameSelect"><option value="">Chọn game/app để tối ưu</option></select>
+        <button class="btn-main" id="boostBtn">Tối Ưu &amp; Chạy Game</button>
+        <div class="btn-row"><button class="btn blue" id="scanBtn">Quét Thiết Bị</button><button class="btn pink" id="applyBtn">Áp Dụng Tối Ưu</button></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="panel wide">
+      <div class="title"><h3>Key Login</h3><span class="hint">Automatic Key Login</span></div>
+      <div class="grid" style="gap:10px">
+        <div class="panel small" style="box-shadow:none;padding:0;border:0;background:transparent;overflow:visible">
+          <div class="field"><label class="label" for="key">Nhập khóa kích hoạt</label><input id="key" autocomplete="off" placeholder="Nhập key để mở các tính năng vip của app ..." /></div>
+          <div class="btn-row" style="margin-top:10px"><button class="btn pink" id="verifyKeyBtn">Kích hoạt key</button><button class="btn" id="refreshKeyBtn">Làm mới key</button></div>
+          <p id="status" class="statusText">Chưa kích hoạt</p>
+        </div>
+        <div class="cards" style="grid-column:span 8">
+          <div class="card"><div class="label">Trạng thái key</div><div class="value" id="licenseState">Chưa kích hoạt</div></div>
+          <div class="card"><div class="label">Thời gian còn lại</div><div class="value" id="licenseCountdown">--</div></div>
+          <div class="card"><div class="label">Ràng buộc thiết bị</div><div class="value" id="licenseBinding">Chưa có</div></div>
+          <div class="card"><div class="label">Binding ID</div><div class="value" id="bindingIdShort">--</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel wide"><div class="title"><h3>Device</h3><span class="hint" id="lastScan">cache chưa có</span></div><div class="cards" id="deviceCards"></div></section>
+
+    <section class="panel"><div class="title"><h3>Display Optimizer</h3><span class="hint">Cấu Hình Resolution/Dpi Tự Động</span></div>
+      <div class="form"><div class="label">Resolution</div><div class="seg" data-group="resolution"><button data-mode="off">Tắt</button><button data-mode="recommended" class="active">Tự Động</button><button data-mode="extreme">Tối Đa</button></div>
+      <div class="label">DPI</div><div class="seg" data-group="dpi"><button data-mode="off">Tắt</button><button data-mode="recommended" class="active">Tự Động</button><button data-mode="extreme">Tối Đa</button></div></div>
+    </section>
+
+    <section class="panel"><div class="title"><h3>Tăng Nhạy Cảm Ứng / Tối Ưu FPS</h3><span class="hint">Aimassist Mode </span></div>
+      <div class="toggle"><div><b>Tự Động Kiểm Tra Lệnh </b><div class="hint">Kiểm tra 45 giây/lần, chạy lại lệnh khi thiếu.</div></div><div class="switch" id="autoSwitch"></div></div>
+      <div class="statusline"><span class="chip good">Pointer_speed</span><span class="chip good">Animations Off</span><span class="chip good">Refresh Max</span><span class="chip">Touch Sysfs</span></div>
+    </section>
+
+    <section class="panel"><div class="title"><h3>Tâm Ảo</h3><span class="hint"></span></div>
+      <div class="form">
+        <div class="toggle"><div><b>Bật Tâm Ảo</b><div class="hint">Sử dụng tâm ảo mặc định của Tiến Hoàng, có thể chỉnh độ to - nhỏ phía dưới. </div></div><div class="switch" id="crossSwitch"></div></div>
+        <div class="statusline"><span class="chip good">Dinhhhhhhhhh</span><span class="chip">Tiennnnnn</span><span class="chip">Hoanggggg</span></div>
+        <div class="range"><span>Kích cỡ</span><input id="chSize" type="range" min="16" max="220" value="72"><b id="chSizeV">72</b></div>
+        <div class="range"><span>Độ trong suốt</span><input id="chOpacity" type="range" min="10" max="100" value="82"><b id="chOpacityV">82%</b></div>
+        <div class="btn-row"><button class="btn" id="centerCross">Center</button><button class="btn" id="hideCross">Hide</button></div>
+      </div>
+    </section>
+
+    <section class="panel"><div class="title"><h3>Restore</h3><span class="hint">Xóa Toàn Bộ Cài Đặt Của App</span></div>
+      <div class="form"><button class="btn danger" id="restoreAll">Restore All-</button><button class="btn" id="restoreDisplay">Restore Display</button><div class="hint">Restore All khôi phục settings, wm size/density, refresh, CPU/GPU/touch nodes đã backup được.</div></div>
+    </section>
+
+    <section class="panel"><div class="title"><h3>Permissions</h3><span class="hint">Các Quyền Truy Cập</span></div>
+      <div class="btn-row"><button class="btn" id="writeSettingsBtn">WRITE_SETTINGS</button><button class="btn" id="overlayBtn">Overlay</button></div>
+      <div class="btn-row" style="margin-top:10px"><button class="btn" id="shizukuBtn">Request Shizuku</button><button class="btn" id="stopAutoBtn">Stop Auto Reapply</button></div>
+    </section>
+
+    <section class="panel wide"><div class="title"><h3>Logs</h3><span class="hint">Applied / Kipped / Failed</span></div><div class="console" id="console"></div></section>
+  </div>
+</div>
+<script>
+(function(){
+  const API_BASE='https://dth-boost-key-server.dinhtienhoang1812010.workers.dev';
+  const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
+  const logBox=$('#console'); let selectedPkg=''; let crossCentered=true; let unlock=false; let licenseSession=null; let licenseCountdownTimer=null;
+  const callbacks=new Map(); let seq=0;
+  window.DTH={
+    nativeResult(id,payload){ if(id==='native-resume'){ updateScan(payload); log('resume scan refreshed'); return; } const cb=callbacks.get(id); if(cb){callbacks.delete(id);cb(payload)} },
+    nativeLog(msg){ log(msg); }
+  };
+  function id(){seq+=1;return 'cb_'+Date.now()+'_'+seq}
+  function call(method,...args){return new Promise(resolve=>{const cb=id(); callbacks.set(cb,resolve); try{Android[method](...args,cb)}catch(e){callbacks.delete(cb); resolve({ok:false,message:String(e)})}})}
+  function log(msg){const line=document.createElement('div');line.className='logline';line.textContent=new Date().toLocaleTimeString()+'  '+msg;logBox.prepend(line);while(logBox.children.length>100)logBox.lastChild.remove()}
+  function statusChip(label,state){return `<span class="chip ${state||''}">${label}</span>`}
+  function val(v,empty='--'){return (v===undefined||v===null||v==='')?empty:v}
+  function setStatus(text, ok=false, bad=false){const el=$('#status'); el.textContent=text; el.className='statusText '+(ok?'ok':bad?'bad':'')}
+  function formatRemaining(total){const d=Math.floor(total/86400); const h=Math.floor((total%86400)/3600); const m=Math.floor((total%3600)/60); const s=total%60; if(d>0)return `${d}d ${h}h ${m}m`; if(h>0)return `${h}h ${m}m ${s}s`; return `${m}m ${s}s`}
+  function deviceInfo(){try{return JSON.parse(Android.getLicenseDeviceInfo())}catch(e){return {installId:'preview-install',bindingId:'preview-binding',deviceName:'Unknown device',androidVersion:'Unknown'}}}
+  function startLicenseCountdown(expiresAt){ if(licenseCountdownTimer) clearInterval(licenseCountdownTimer); const tick=()=>{ const diff=Math.max(0,Math.floor((new Date(expiresAt).getTime()-Date.now())/1000)); $('#licenseCountdown').textContent=formatRemaining(diff); if(diff<=0){clearInterval(licenseCountdownTimer); unlock=false; $('#licenseState').textContent='Đã hết hạn'; setStatus('Key đã hết hạn',false,true); log('key expired');} }; tick(); licenseCountdownTimer=setInterval(tick,1000); }
+  function persistLicense(data){localStorage.setItem('dth_license_session',JSON.stringify(data))}
+  function clearLicense(){unlock=false; licenseSession=null; localStorage.removeItem('dth_license_session'); if(licenseCountdownTimer)clearInterval(licenseCountdownTimer); $('#licenseState').textContent='Chưa kích hoạt'; $('#licenseCountdown').textContent='--'; $('#licenseBinding').textContent='Chưa có'; setStatus('Chưa kích hoạt')}
+  function applyLicenseSession(data){licenseSession=data; unlock=true; $('#licenseState').textContent=data.license?.statusLabel||'Đang hoạt động'; $('#licenseBinding').textContent=data.license?.bindingLabel||'Thiết bị hiện tại'; if(data.expiresAt)startLicenseCountdown(data.expiresAt); else $('#licenseCountdown').textContent=data.remainingText||'--'; setStatus(data.expiresAt?'KEY ĐÚNG • HỆ THỐNG ĐÃ MỞ':'KEY ĐÚNG • HỆ THỐNG ĐANG HOẠT ĐỘNG',true); persistLicense(data)}
+  async function verifyKey(){ const input=$('#key'); const enteredKey=(input?.value||'').trim(); if(!enteredKey){setStatus('Vui lòng nhập key',false,true); log('key missing'); return;} const d=deviceInfo(); setStatus('Đang xác thực key...'); $('#licenseState').textContent='Đang xác thực'; try{ const res=await fetch(`${API_BASE}/api/key/verify`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:enteredKey,installId:d.installId||'preview-install',bindingId:d.bindingId||'preview-binding',deviceName:d.deviceName||'Unknown device',androidVersion:d.androidVersion||'Unknown'})}); const data=await res.json().catch(()=>({})); if(!res.ok||!data.ok){clearLicense(); setStatus(data.error||data.message||'Key không hợp lệ hoặc đã hết hạn',false,true); $('#licenseState').textContent='Không hợp lệ'; log('key denied'); return;} const sessionData={sessionToken:data.sessionToken||null,expiresAt:data.expiresAt||null,remainingText:data.remainingText||null,license:{statusLabel:data.license?.statusLabel||'Đã kích hoạt',bindingLabel:data.license?.bindingLabel||(d.bindingId||d.installId||'Thiết bị hiện tại')}}; applyLicenseSession(sessionData); $('#licenseState').textContent='Đã kích hoạt'; $('#licenseBinding').textContent=sessionData.license.bindingLabel; setStatus(`KEY ĐÚNG • ${data.remainingText||'Đang hoạt động'}`,true); log('key unlocked'); }catch(err){clearLicense(); setStatus('Không kết nối được máy chủ key',false,true); $('#licenseState').textContent='Mất kết nối'; log('key server offline'); console.error(err)} }
+  async function refreshLicense(){ if(!($('#key').value||'').trim()){log('nhập key để làm mới');setStatus('Hãy nhập key để làm mới',false,true);return;} log('refresh key...'); await verifyKey(); }
+  function hydrateLicense(){ const raw=localStorage.getItem('dth_license_session'); if(!raw)return; try{const stored=JSON.parse(raw); if(stored?.sessionToken||stored?.expiresAt||stored?.license)applyLicenseSession(stored)}catch(e){clearLicense()} }
+  function requireUnlock(){ if(!unlock){setStatus('Cần key hợp lệ để dùng Boost',false,true); log('blocked: key required'); return false;} return true; }
+  function updateBinding(){const d=deviceInfo(); $('#bindingIdShort').textContent=(d.bindingId||'--').slice(0,18)+(d.bindingId?'...':'')}
+  function updateScan(s){s=s||{}; const root=!!s.rootAvailable, shi=!!s.shizukuAvailable, ws=!!s.writeSettingsAvailable, ov=!!s.overlayAvailable;
+    $('#statusLine').innerHTML=[statusChip('Core Access '+(root?'UNLOCKED':'LOCKED'),root?'good':'bad'),statusChip('Shell Boost '+(shi?'ONLINE':'OFFLINE'),shi?'good':'bad'),statusChip('System Aim '+(ws?'UNLOCKED':'LOCKED'),ws?'good':'warn'),statusChip('Crosshair HUD '+(ov?'READY':'OFF'),ov?'good':'warn'),statusChip(s.thermalWarning?'Heat Warning':'Full Power Hold',s.thermalWarning?'warn':'good')].join('');
+    $('#deviceCards').innerHTML=[card('Root',root?'Available':'No',root?'good':'bad'), card('Shizuku',shi?'Ready':'No',shi?'good':'bad'), card('Refresh',`${val(s.currentRefreshRate)} / ${val(s.maxRefreshRate)}Hz`,'good'), card('Resolution',val(s.currentResolution),'good'), card('DPI',val(s.currentDensity),'good'), card('Temp',`${val(s.batteryTempC)}°C`,s.thermalWarning?'warn':'good'), card('RAM',`${val(s.availableRamMb)} / ${val(s.totalRamMb)} MB`,'good'), card('Android',`${val(s.androidVersion)} / SDK ${val(s.sdk)}`,'')].join('');
+    $('#lastScan').textContent=s.lastScanTime?('scan '+new Date(s.lastScanTime).toLocaleTimeString()):'chưa scan'; if(Array.isArray(s.launchableApps)) fillApps(s.launchableApps);
+  }
+  function card(k,v,c){return `<div class="card"><div class="label">${k}</div><div class="value ${c||''}">${v}</div></div>`}
+  function fillApps(apps){const sel=$('#gameSelect'); const old=sel.value; sel.innerHTML='<option value="">Chọn game/app để launch</option>'+apps.map(a=>`<option value="${a.packageName}">${a.label}</option>`).join(''); if(old)sel.value=old; selectedPkg=sel.value; loadPreset()}
+  function loadPreset(){if(!selectedPkg||!window.Android)return; try{const p=JSON.parse(Android.getPreset(selectedPkg)); setSeg('resolution',p.resolutionMode||'recommended'); setSeg('dpi',p.dpiMode||'recommended'); setSwitch('#autoSwitch',!!p.autoReapply); setSwitch('#crossSwitch',!!p.crosshairEnabled); $('#chSize').value=p.crosshairSize||72; $('#chSizeV').textContent=$('#chSize').value; $('#chOpacity').value=Math.round((p.crosshairOpacity||.82)*100); $('#chOpacityV').textContent=$('#chOpacity').value+'%'; crossCentered=!!p.crosshairCentered}catch(e){}}
+  function setSwitch(sel,on){$(sel).classList.toggle('on',!!on)}
+  function setSeg(group,mode){$$(`.seg[data-group="${group}"] button`).forEach(b=>b.classList.toggle('active',b.dataset.mode===mode))}
+  async function scan(){log('Quét Thiết Bị...'); const res=await call('scanDevice'); updateScan(res); log('Quét Thiết Bị Thành Công')}
+  async function boostLaunch(){if(!requireUnlock())return; selectedPkg=$('#gameSelect').value||''; log('Full Power Auto Max -> pre-boost'); const res=await call('boostAndLaunch',selectedPkg); showResult(res)}
+  async function applyOnly(){if(!requireUnlock())return; selectedPkg=$('#gameSelect').value||''; log('Mức Tối Ưu Mạnh Nhất Đã Áp Dụng'); const res=await call('applyFullPower',selectedPkg); showResult(res)}
+  function showResult(res){ if(res.scan) updateScan(res.scan); (res.logs||res.applied||[]).forEach(log); (res.errors||res.notes||[]).forEach(e=>log('NOTE '+e)); log(res.message||'done') }
+  function saveCross(){ if(!selectedPkg)return; Android.setCrosshairConfig(selectedPkg, Number($('#chSize').value), Number($('#chOpacity').value)/100, 0, 0, crossCentered); }
+  $('#verifyKeyBtn').onclick=verifyKey; $('#refreshKeyBtn').onclick=refreshLicense;
+  $('#scanBtn').onclick=scan; $('#boostBtn').onclick=boostLaunch; $('#applyBtn').onclick=applyOnly;
+  $('#gameSelect').onchange=e=>{selectedPkg=e.target.value; loadPreset()};
+  $$('.seg button').forEach(b=>b.onclick=()=>{const g=b.parentElement.dataset.group; setSeg(g,b.dataset.mode); if(selectedPkg){ if(g==='resolution')Android.setResolutionMode(selectedPkg,b.dataset.mode); else Android.setDpiMode(selectedPkg,b.dataset.mode); }});
+  $('#autoSwitch').onclick=()=>{const on=!$('#autoSwitch').classList.contains('on'); setSwitch('#autoSwitch',on); if(selectedPkg)Android.setAutoReapply(selectedPkg,on)};
+  $('#crossSwitch').onclick=()=>{const on=!$('#crossSwitch').classList.contains('on'); setSwitch('#crossSwitch',on); if(selectedPkg)Android.setCrosshairEnabled(selectedPkg,on)};
+  $('#chSize').oninput=()=>{$('#chSizeV').textContent=$('#chSize').value; saveCross()}; $('#chOpacity').oninput=()=>{$('#chOpacityV').textContent=$('#chOpacity').value+'%'; saveCross()};
+  $('#centerCross').onclick=()=>{crossCentered=true; saveCross(); if(selectedPkg)Android.showCrosshair(selectedPkg)}; $('#hideCross').onclick=()=>Android.hideCrosshair();
+  $('#restoreAll').onclick=async()=>{log('restore all...'); showResult(await call('restoreAll'))}; $('#restoreDisplay').onclick=async()=>{log('restore display...'); showResult(await call('restoreDisplay'))};
+  $('#writeSettingsBtn').onclick=()=>Android.openWriteSettings(); $('#overlayBtn').onclick=()=>Android.openOverlaySettings(); $('#shizukuBtn').onclick=()=>Android.requestShizukuPermission(); $('#stopAutoBtn').onclick=()=>{Android.stopAutoReapply();log('auto reapply stopped')};
+  updateBinding(); hydrateLicense(); try{updateScan(JSON.parse(Android.getCachedDeviceScan()))}catch(e){} scan();
+})();
+</script>
+</body>
+</html>
