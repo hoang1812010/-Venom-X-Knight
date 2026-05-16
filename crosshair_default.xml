@@ -1,0 +1,39 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Outer Circle (Lớn) -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF0000"
+        android:strokeWidth="34"
+        android:strokeLineCap="round"
+        android:pathData="M256,82 A174,174 0,1,1 255.9,82" />
+
+    <!-- Inner Circle (Nhỏ) -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF0000"
+        android:strokeWidth="22"
+        android:strokeLineCap="round"
+        android:pathData="M256,150 A106,106 0,1,1 255.9,150" />
+
+    <!-- Crosshairs (Horizontal and Vertical) -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF0000"
+        android:strokeWidth="22"
+        android:strokeLineCap="round"
+        android:pathData="M256,42 L256,142 M256,370 L256,470 M42,256 L142,256 M370,256 L470,256" />
+
+    <!-- Inner Cross (Horizontal and Vertical) -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#FF0000"
+        android:strokeWidth="12"
+        android:strokeLineCap="round"
+        android:pathData="M256,220 L256,292 M220,256 L292,256" />
+
+</vector>
